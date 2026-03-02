@@ -28,8 +28,10 @@ pub async fn start_qr_login_flow(
     Logger::info(&app_handle, "[QR] Initializing secure handshake...", None);
 
     // Dynamically extrapolate Client ID instead of using hardcoded constant
-    let client_id = Vault::get_credential(&app_handle, "client_id")
-        .unwrap_or_else(|_| SessionAuditor::extrapolate_client_id(&app_handle));
+    let client_id = match Vault::get_credential(&app_handle, "client_id") {
+        Ok(id) => Ok(id),
+        Err(_) => SessionAuditor::extrapolate_client_id(&app_handle),
+    }?;
 
     Logger::debug(
         &app_handle,
@@ -168,13 +170,16 @@ pub async fn start_qr_login_flow(
                                             Err(e) => Logger::error(&app_handle_clone, "[QR] Nonce base64 decode failed", Some(serde_json::json!({"error": e.to_string()}))),
                                         }
                                     },
-                                    "fingerprint" => {
+                                    "pending_remote_init" => {
                                         if let Some(fp) = p["fingerprint"].as_str() {
-                                            Logger::info(&app_handle_clone, "[QR] Signature generated", None);
+                                            Logger::info(&app_handle_clone, "[QR] Fingerprint received, generating QR code.", None);
                                             let _ = window_clone.emit("qr_code_ready", format!("https://discord.com/ra/{}", fp));
                                         }
                                     },
-                                    "pending_remote_init" => {
+                                    "pending_ticket" => {
+                                        Logger::info(&app_handle_clone, "[QR] Ticket proof received from client.", None);
+                                    },
+                                    "pending_login" => {
                                         Logger::info(&app_handle_clone, "[QR] Remote scan detected. Awaiting confirmation...", None);
                                         let _ = window_clone.emit("qr_scanned", ());
                                     },
@@ -187,8 +192,7 @@ pub async fn start_qr_login_flow(
                                                 match priv_key.decrypt(padding, &encrypted_bytes) {
                                                     Ok(decrypted) => {
                                                         let token = String::from_utf8_lossy(&decrypted).to_string();
-                                                        let _ = login_with_token_internal(app_handle_clone.clone(), window_clone.clone(), token, false).await;
-                                                    },
+                                                        let _ = login_with_token_internal(app_handle_clone.clone(), window_clone.clone(), token, None, false).await;                                                    },
                                                     Err(e) => Logger::error(&app_handle_clone, "[QR] Token decryption failed", Some(serde_json::json!({"error": e.to_string()}))),
                                                 }
                                             },

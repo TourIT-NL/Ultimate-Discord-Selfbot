@@ -5,6 +5,7 @@ pub mod bulk;
 pub mod export;
 pub mod footprint;
 pub mod gdpr;
+pub mod message_fetcher;
 pub mod ops;
 pub mod privacy;
 pub mod security;

@@ -72,3 +72,17 @@ pub async fn unlock_vault(
     Logger::info(&app_handle, "[Vault] Vault unlocked successfully", None);
     Ok(())
 }
+
+#[tauri::command]
+pub async fn set_client_id_credential(
+    app_handle: AppHandle,
+    client_id: String,
+) -> Result<(), AppError> {
+    crate::core::vault::Vault::set_credential(&app_handle, "client_id", &client_id)?;
+    Logger::info(
+        &app_handle,
+        &format!("[Vault] Client ID credential set: {}", client_id),
+        None,
+    );
+    Ok(())
+}

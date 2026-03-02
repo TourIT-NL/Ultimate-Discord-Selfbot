@@ -158,6 +158,7 @@ fn main() {
             core::vault::commands::set_master_password,
             core::vault::commands::has_biometric_support,
             core::vault::commands::unlock_vault,
+            core::vault::commands::set_client_id_credential,
             api::discord::fetch_guilds,
             api::discord::fetch_channels,
             api::discord::fetch_relationships,

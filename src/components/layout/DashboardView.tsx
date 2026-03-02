@@ -1,427 +1,146 @@
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Server,
-  HelpCircle,
-  Hash,
-  Shield,
-  Fingerprint,
-  CreditCard,
-  Download,
-} from "lucide-react";
+import { useEffect } from "react";
 import { Sidebar } from "../dashboard/Sidebar";
-import { MessagesMode } from "../dashboard/modes/MessagesMode";
-import { ServersMode } from "../dashboard/modes/ServersMode";
-import { IdentityMode } from "../dashboard/modes/IdentityMode";
-import { SecurityMode } from "../dashboard/modes/SecurityMode";
-import { PrivacyMode } from "../dashboard/modes/PrivacyMode";
-import { AccountMode } from "../dashboard/modes/AccountMode";
-import { ExportMode } from "../dashboard/modes/ExportMode";
-import { IconButton } from "../common/M3Components";
-import { Guild, Channel, Relationship } from "../../types/discord";
+import { useAuthStore } from "../../store/authStore";
+import { useDiscordAuth } from "../../hooks/useDiscordAuth";
+import { useDiscordOperations } from "../../hooks/useDiscordOperations";
+import { DashboardHeader } from "./DashboardHeader";
+import { DashboardContent } from "./DashboardContent";
 
-interface DashboardViewProps {
-  user: any;
-  identities: any[];
-  guilds: Guild[] | null;
-  selectedGuilds: Set<string>;
-  handleSwitchIdentity: (id: string) => void;
-  setView: (
-    view: "manual" | "auth" | "setup" | "qr" | "token" | "dashboard",
-  ) => void;
-  handleToggleGuildSelection: (guild: Guild | null) => void;
-  handleStealthWipe: () => void;
-  handleNitroWipe: () => void;
-  handleLogout: () => void;
-  mode:
-    | "messages"
-    | "servers"
-    | "identity"
-    | "security"
-    | "privacy"
-    | "account"
-    | "export";
-  setMode: (mode: any) => void;
-  timeRange: "24h" | "7d" | "all";
-  setTimeRange: (range: "24h" | "7d" | "all") => void;
-  simulation: boolean;
-  setSimulation: (sim: boolean) => void;
-  closeEmptyDms: boolean;
-  setCloseEmptyDms: (close: boolean) => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  purgeReactions: boolean;
-  setPurgeReactions: (purge: boolean) => void;
-  onlyAttachments: boolean;
-  setOnlyAttachments: (only: boolean) => void;
-  channelsByGuild: Map<string, Channel[]>;
-  selectedChannels: Set<string>;
-  handleToggleChannel: (id: string) => void;
-  setSelectedChannels: (ids: Set<string>) => void;
-  previews: any[];
-  confirmText: string;
-  setConfirmText: (text: string) => void;
-  isProcessing: boolean;
-  startAction: () => void;
-  selectedGuildsToLeave: Set<string>;
-  setSelectedGuildsToLeave: (ids: Set<string>) => void;
-  handleBuryAuditLog: () => void;
-  handleWebhookGhosting: () => void;
-  handleOpenDonateLink: () => void;
-  handleOpenDiscordUrl: (type: string) => void;
-  handleTriggerHarvest: () => void;
-  handleMaxPrivacySanitize: () => void;
-  handleRevokeApp: (id: string) => void;
-  fetchSecurityAudit: () => void;
-  fetchPrivacyAudit: () => void;
-  fetchAccountAudit: () => void;
-  authorizedApps: any[];
-  gdprStatus: any;
-  billingInfo: any;
-  isLoading: boolean;
-  relationships: Relationship[] | null;
-  selectedRelationships: Set<string>;
-  setSelectedRelationships: (ids: Set<string>) => void;
-  exportDirection: "sent" | "received" | "both";
-  setExportDirection: (dir: "sent" | "received" | "both") => void;
-  includeAttachmentsInHtml: boolean;
-  setIncludeAttachmentsInHtml: (inc: boolean) => void;
-  handleStartExport: (format: "html" | "raw") => void;
-  handleStartGuildArchive: () => void;
-  handleSetHypesquad: (id: number) => void;
-  handleGhostProfile: () => void;
-  handleProcessGdprData: () => void;
-  handleSetProxy: (url: string | null) => void;
-  handleBurnEvidence: () => void;
-  handleNuclearWipe: () => void;
-}
+export const DashboardView = () => {
+  const { guilds, isLoading } = useAuthStore();
+  const { setView, handleApiError } = useDiscordAuth();
+  const {
+    mode,
+    setMode,
+    selectedGuilds,
+    timeRange,
+    setTimeRange,
+    simulation,
+    setSimulation,
+    closeEmptyDms,
+    setCloseEmptyDms,
+    searchQuery,
+    setSearchQuery,
+    purgeReactions,
+    setPurgeReactions,
+    onlyAttachments,
+    setOnlyAttachments,
+    channelsByGuild,
+    selectedChannels,
+    handleToggleChannel,
+    setSelectedChannels,
+    previews,
+    confirmText,
+    setConfirmText,
+    isProcessing,
+    startAction,
+    selectedGuildsToLeave,
+    setSelectedGuildsToLeave,
+    handleBuryAuditLog,
+    handleWebhookGhosting,
+    handleOpenDiscordUrl,
+    handleTriggerHarvest,
+    handleMaxPrivacySanitize,
+    handleRevokeApp,
+    fetchSecurityAudit,
+    fetchPrivacyAudit,
+    fetchAccountAudit,
+    authorizedApps,
+    gdprStatus,
+    billingInfo,
+    relationships,
+    selectedRelationships,
+    setSelectedRelationships,
+    fetchRelationships,
+    exportDirection,
+    setExportDirection,
+    includeAttachmentsInHtml,
+    setIncludeAttachmentsInHtml,
+    handleStartExport,
+    handleStartGuildArchive,
+    handleSetHypesquad,
+    handleGhostProfile,
+    handleProcessGdprData,
+    handleSetProxy,
+  } = useDiscordOperations(handleApiError);
 
-export const DashboardView = ({
-  user,
-  identities,
-  guilds,
-  selectedGuilds,
-  handleSwitchIdentity,
-  setView,
-  handleToggleGuildSelection,
-  handleStealthWipe,
-  handleNitroWipe,
-  handleLogout,
-  mode,
-  setMode,
-  timeRange,
-  setTimeRange,
-  simulation,
-  setSimulation,
-  closeEmptyDms,
-  setCloseEmptyDms,
-  searchQuery,
-  setSearchQuery,
-  purgeReactions,
-  setPurgeReactions,
-  onlyAttachments,
-  setOnlyAttachments,
-  channelsByGuild,
-  selectedChannels,
-  handleToggleChannel,
-  setSelectedChannels,
-  previews,
-  confirmText,
-  setConfirmText,
-  isProcessing,
-  startAction,
-  selectedGuildsToLeave,
-  setSelectedGuildsToLeave,
-  handleBuryAuditLog,
-  handleWebhookGhosting,
-  handleOpenDonateLink,
-  handleOpenDiscordUrl,
-  handleTriggerHarvest,
-  handleMaxPrivacySanitize,
-  handleRevokeApp,
-  fetchSecurityAudit,
-  fetchPrivacyAudit,
-  fetchAccountAudit,
-  authorizedApps,
-  gdprStatus,
-  billingInfo,
-  isLoading,
-  relationships,
-  selectedRelationships,
-  setSelectedRelationships,
-  exportDirection,
-  setExportDirection,
-  includeAttachmentsInHtml,
-  setIncludeAttachmentsInHtml,
-  handleStartExport,
-  handleStartGuildArchive,
-  handleSetHypesquad,
-  handleGhostProfile,
-  handleProcessGdprData,
-  handleSetProxy,
-  handleBurnEvidence,
-  handleNuclearWipe,
-}: DashboardViewProps) => (
-  <div className="w-full h-full flex gap-10 p-4">
-    <Sidebar
-      user={user}
-      identities={identities}
-      guilds={guilds}
-      selectedGuilds={selectedGuilds}
-      mode={mode}
-      isProcessing={isProcessing}
-      setMode={setMode}
-      onSwitchIdentity={handleSwitchIdentity}
-      onNewIdentity={() => setView("auth")}
-      onToggleGuildSelection={handleToggleGuildSelection}
-      onStealthWipe={handleStealthWipe}
-      onNitroWipe={handleNitroWipe}
-      onNuclearWipe={handleNuclearWipe}
-      onBurnEvidence={handleBurnEvidence}
-      onLogout={handleLogout}
-      onOpenDonateLink={handleOpenDonateLink}
-    />
-    <main className="flex-1 flex flex-col min-w-0">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={Array.from(selectedGuilds).join("-") || "empty"}
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          className="flex-1 flex flex-col gap-10"
-        >
-          <div className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-6">
-              <div className="p-5 rounded-m3-xl bg-m3-surfaceVariant shadow-lg border border-m3-outlineVariant/30 text-m3-onSurfaceVariant group relative overflow-hidden">
-                <div className="absolute inset-0 bg-m3-primary/5 animate-pulse" />
-                <Server className="w-8 h-8 relative z-10" />
-              </div>
-              <div>
-                <h2 className="text-5xl font-black italic tracking-tighter uppercase leading-none text-white">
-                  {isProcessing ? (
-                    <span className="text-m3-error animate-pulse">
-                      Execution In Progress
-                    </span>
-                  ) : mode === "identity" ? (
-                    "Identity Links"
-                  ) : mode === "security" ? (
-                    "Security Audit"
-                  ) : mode === "privacy" ? (
-                    "Privacy Hardening"
-                  ) : mode === "account" ? (
-                    "Financial Footprint"
-                  ) : mode === "export" ? (
-                    "Data Extraction"
-                  ) : selectedGuilds.size === 0 ? (
-                    "Select Sources"
-                  ) : selectedGuilds.size === 1 ? (
-                    guilds?.find((g) => g.id === Array.from(selectedGuilds)[0])
-                      ?.name || "Direct Messages"
-                  ) : (
-                    `${selectedGuilds.size} Sources Selected`
-                  )}
-                </h2>
-                <div className="flex items-center gap-3 mt-4 bg-m3-primary/10 w-fit px-4 py-1.5 rounded-full border border-m3-primary/20 shadow-inner">
-                  <div
-                    className={`w-2 h-2 rounded-full animate-pulse shadow-[0_0_10px_rgba(208,188,255,0.8)] ${isProcessing ? "bg-m3-error" : "bg-m3-primary"}`}
-                  />
-                  <p
-                    className={`text-[10px] font-black uppercase tracking-[0.4em] italic leading-none ${isProcessing ? "text-m3-error" : "text-m3-primary"}`}
-                  >
-                    {isProcessing
-                      ? "Protocol Active"
-                      : "Node Connection Established"}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex bg-m3-surfaceVariant rounded-m3-full p-1.5 border border-m3-outlineVariant shadow-inner">
-              <button
-                disabled={isProcessing}
-                onClick={() => setMode("messages")}
-                className={`px-8 py-2.5 rounded-m3-full text-[10px] font-black uppercase tracking-widest transition-all ${mode === "messages" ? "bg-m3-primary text-m3-onPrimary" : "text-m3-onSurfaceVariant"} ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                Messages
-              </button>
-              {selectedGuilds.size > 0 && (
-                <button
-                  disabled={isProcessing}
-                  onClick={() => setMode("servers")}
-                  className={`px-8 py-2.5 rounded-m3-full text-[10px] font-black uppercase tracking-widest transition-all ${mode === "servers" ? "bg-m3-primary text-m3-onPrimary" : "text-m3-onSurfaceVariant"} ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
-                >
-                  Servers
-                </button>
-              )}
-              <button
-                disabled={isProcessing}
-                onClick={() => setMode("identity")}
-                className={`px-8 py-2.5 rounded-m3-full text-[10px] font-black uppercase tracking-widest transition-all ${mode === "identity" ? "bg-m3-primary text-m3-onPrimary" : "text-m3-onSurfaceVariant"} ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                Friends
-              </button>
-              <button
-                disabled={isProcessing}
-                onClick={() => setMode("export")}
-                className={`px-8 py-2.5 rounded-m3-full text-[10px] font-black uppercase tracking-widest transition-all ${mode === "export" ? "bg-m3-primary text-m3-onPrimary" : "text-m3-onSurfaceVariant"} ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                Export
-              </button>
-              <div className="w-px bg-white/10 mx-2" />
-              <button
-                disabled={isProcessing}
-                onClick={() => setMode("security")}
-                className={`p-2.5 rounded-m3-full transition-all ${mode === "security" ? "bg-m3-tertiary text-m3-onTertiary" : "text-m3-onSurfaceVariant hover:bg-white/5"} ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <Shield className="w-4 h-4" />
-              </button>
-              <button
-                disabled={isProcessing}
-                onClick={() => setMode("privacy")}
-                className={`p-2.5 rounded-m3-full transition-all ${mode === "privacy" ? "bg-m3-tertiary text-m3-onTertiary" : "text-m3-onSurfaceVariant hover:bg-white/5"} ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <Fingerprint className="w-4 h-4" />
-              </button>
-              <button
-                disabled={isProcessing}
-                onClick={() => setMode("account")}
-                className={`p-2.5 rounded-m3-full transition-all ${mode === "account" ? "bg-m3-tertiary text-m3-onTertiary" : "text-m3-onSurfaceVariant hover:bg-white/5"} ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <CreditCard className="w-4 h-4" />
-              </button>
-              <div className="w-px bg-white/10 mx-2" />
-              <IconButton
-                icon={HelpCircle}
-                onClick={() => setView("manual")}
-                className="!text-m3-onSurfaceVariant hover:!text-m3-primary transition-colors"
-              />
-            </div>
-          </div>
-          {mode === "messages" && (
-            <MessagesMode
-              timeRange={timeRange}
-              setTimeRange={setTimeRange}
-              simulation={simulation}
-              setSimulation={setSimulation}
-              closeEmptyDms={closeEmptyDms}
-              setCloseEmptyDms={setCloseEmptyDms}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              purgeReactions={purgeReactions}
-              setPurgeReactions={setPurgeReactions}
-              onlyAttachments={onlyAttachments}
-              setOnlyAttachments={setOnlyAttachments}
-              guilds={guilds}
-              channelsByGuild={channelsByGuild}
-              selectedChannels={selectedChannels}
-              onToggleChannel={handleToggleChannel}
-              onMapAll={() => {
-                const all = new Set<string>();
-                channelsByGuild.forEach((cs) =>
-                  cs.forEach((c) => all.add(c.id)),
-                );
-                setSelectedChannels(all);
-              }}
-              previews={previews}
-              confirmText={confirmText}
-              setConfirmText={setConfirmText}
-              isProcessing={isProcessing}
-              onStartAction={startAction}
-            />
-          )}{" "}
-          {mode === "servers" && (
-            <ServersMode
-              guilds={guilds}
-              selectedGuildsToLeave={selectedGuildsToLeave}
-              onToggleGuildToLeave={(id) => {
-                const next = new Set(selectedGuildsToLeave);
-                if (next.has(id)) next.delete(id);
-                else next.add(id);
-                setSelectedGuildsToLeave(next);
-              }}
-              onSelectAllNodes={() =>
-                setSelectedGuildsToLeave(new Set(guilds?.map((g) => g.id)))
-              }
-              confirmText={confirmText}
-              setConfirmText={setConfirmText}
-              isProcessing={isProcessing}
-              onStartAction={startAction}
-              selectedGuilds={selectedGuilds}
-              channelsByGuild={channelsByGuild}
-              selectedChannels={selectedChannels}
-              onToggleChannelForAudit={(id) =>
-                setSelectedChannels(new Set([id]))
-              }
-              onBuryAuditLog={handleBuryAuditLog}
-              onWebhookGhosting={handleWebhookGhosting}
-              isLoading={isLoading}
-            />
-          )}
-          {mode === "identity" && (
-            <IdentityMode
-              relationships={relationships}
-              selectedRelationships={selectedRelationships}
-              onToggleRelationship={(id) => {
-                const next = new Set(selectedRelationships);
-                if (next.has(id)) next.delete(id);
-                else next.add(id);
-                setSelectedRelationships(next);
-              }}
-              onMapAllLinks={() =>
-                setSelectedRelationships(
-                  new Set(relationships?.map((r) => r.id)),
-                )
-              }
-              confirmText={confirmText}
-              setConfirmText={setConfirmText}
-              isProcessing={isProcessing}
-              onStartAction={startAction}
-            />
-          )}
-          {mode === "security" && (
-            <SecurityMode
-              apps={authorizedApps}
-              fetchAudit={fetchSecurityAudit}
-              onRevoke={handleRevokeApp}
-              onOpenDiscordUrl={handleOpenDiscordUrl}
-            />
-          )}
-          {mode === "privacy" && (
-            <PrivacyMode
-              status={gdprStatus}
-              fetchAudit={fetchPrivacyAudit}
-              onTriggerHarvest={handleTriggerHarvest}
-              onSanitize={handleMaxPrivacySanitize}
-              onOpenDiscordUrl={handleOpenDiscordUrl}
-              onProcessGdprData={handleProcessGdprData}
-              onSetProxy={handleSetProxy}
-            />
-          )}
-          {mode === "account" && (
-            <AccountMode
-              info={billingInfo}
-              fetchAudit={fetchAccountAudit}
-              onOpenDiscordUrl={handleOpenDiscordUrl}
-              onSetHypesquad={handleSetHypesquad}
-              onGhostProfile={handleGhostProfile}
-            />
-          )}
-          {mode === "export" && (
-            <ExportMode
-              guilds={guilds}
-              selectedGuilds={selectedGuilds}
-              channelsByGuild={channelsByGuild}
-              selectedChannels={selectedChannels}
-              onToggleChannel={handleToggleChannel}
-              exportDirection={exportDirection}
-              setExportDirection={setExportDirection}
-              includeAttachmentsInHtml={includeAttachmentsInHtml}
-              setIncludeAttachmentsInHtml={setIncludeAttachmentsInHtml}
-              onStartExport={handleStartExport}
-              onStartGuildArchive={handleStartGuildArchive}
-              isProcessing={isProcessing}
-            />
-          )}
-        </motion.div>
-      </AnimatePresence>
-    </main>
-  </div>
-);
+  useEffect(() => {
+    if (mode === "identity") {
+      fetchRelationships();
+    }
+  }, [mode, fetchRelationships]);
+
+  const currentGuildName = guilds?.find(
+    (g) => g.id === Array.from(selectedGuilds)[0],
+  )?.name;
+
+  return (
+    <div className="w-full h-full flex gap-10 p-4">
+      <Sidebar />
+      <main className="flex-1 flex flex-col min-w-0 gap-10">
+        <DashboardHeader
+          mode={mode}
+          setMode={setMode}
+          isProcessing={isProcessing}
+          selectedGuildsCount={selectedGuilds.size}
+          currentGuildName={currentGuildName}
+          onOpenManual={() => setView("manual")}
+        />
+        <DashboardContent
+          mode={mode}
+          selectedGuilds={selectedGuilds}
+          guilds={guilds}
+          isLoading={isLoading}
+          isProcessing={isProcessing}
+          timeRange={timeRange}
+          setTimeRange={setTimeRange}
+          simulation={simulation}
+          setSimulation={setSimulation}
+          closeEmptyDms={closeEmptyDms}
+          setCloseEmptyDms={setCloseEmptyDms}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          purgeReactions={purgeReactions}
+          setPurgeReactions={setPurgeReactions}
+          onlyAttachments={onlyAttachments}
+          setOnlyAttachments={setOnlyAttachments}
+          channelsByGuild={channelsByGuild}
+          selectedChannels={selectedChannels}
+          handleToggleChannel={handleToggleChannel}
+          setSelectedChannels={setSelectedChannels}
+          previews={previews}
+          confirmText={confirmText}
+          setConfirmText={setConfirmText}
+          startAction={startAction}
+          selectedGuildsToLeave={selectedGuildsToLeave}
+          setSelectedGuildsToLeave={setSelectedGuildsToLeave}
+          handleBuryAuditLog={handleBuryAuditLog}
+          handleWebhookGhosting={handleWebhookGhosting}
+          relationships={relationships}
+          selectedRelationships={selectedRelationships}
+          setSelectedRelationships={setSelectedRelationships}
+          authorizedApps={authorizedApps}
+          fetchSecurityAudit={fetchSecurityAudit}
+          handleRevokeApp={handleRevokeApp}
+          handleOpenDiscordUrl={handleOpenDiscordUrl}
+          gdprStatus={gdprStatus}
+          fetchPrivacyAudit={fetchPrivacyAudit}
+          handleTriggerHarvest={handleTriggerHarvest}
+          handleMaxPrivacySanitize={handleMaxPrivacySanitize}
+          handleProcessGdprData={handleProcessGdprData}
+          handleSetProxy={handleSetProxy}
+          billingInfo={billingInfo}
+          fetchAccountAudit={fetchAccountAudit}
+          handleSetHypesquad={handleSetHypesquad}
+          handleGhostProfile={handleGhostProfile}
+          exportDirection={exportDirection}
+          setExportDirection={setExportDirection}
+          includeAttachmentsInHtml={includeAttachmentsInHtml}
+          setIncludeAttachmentsInHtml={setIncludeAttachmentsInHtml}
+          handleStartExport={handleStartExport}
+          handleStartGuildArchive={handleStartGuildArchive}
+        />
+      </main>
+    </div>
+  );
+};

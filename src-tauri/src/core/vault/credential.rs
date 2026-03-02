@@ -67,9 +67,8 @@ impl CredentialManager {
                 AppError {
                     user_message: format!("Credential '{}' not found. Please complete Setup.", key),
                     error_code: "vault_credentials_missing".into(),
-                    discord_code: None,
-                    semantic_error: None,
                     technical_details: original_err.technical_details,
+                    ..Default::default()
                 }
             } else {
                 original_err

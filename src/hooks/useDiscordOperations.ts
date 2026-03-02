@@ -1,86 +1,62 @@
 import { useState, useCallback, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { open, save } from "@tauri-apps/plugin-dialog";
 import { useAuthStore } from "../store/authStore";
-import { Guild, Channel, Relationship, PreviewMessage } from "../types/discord";
 import { useSelectionState } from "./useSelectionState";
 import { useOperationControl } from "./useOperationControl";
+import { useMessageOps } from "./ops/useMessageOps";
+import { useServerOps } from "./ops/useServerOps";
+import { useIdentityOps } from "./ops/useIdentityOps";
+import { useSecurityOps } from "./ops/useSecurityOps";
+import { usePrivacyOps } from "./ops/usePrivacyOps";
+import { useAccountOps } from "./ops/useAccountOps";
+import { useExportOps } from "./ops/useExportOps";
+import { useGeneralOps } from "./ops/useGeneralOps";
+import { PreviewMessage, Channel } from "../types/discord";
 
 export const useDiscordOperations = (
   handleApiError: (err: any, fallback: string) => void,
 ) => {
-  const { guilds, setGuilds, setError, setLoading } = useAuthStore();
+  const { setGuilds, setLoading } = useAuthStore();
   const isFetchingGuildsRef = useRef(false);
 
   const [mode, setMode] = useState<
-    "messages" | "servers" | "identity" | "security" | "privacy" | "account"
+    | "messages"
+    | "servers"
+    | "identity"
+    | "security"
+    | "privacy"
+    | "account"
+    | "export"
   >("messages");
   const [confirmText, setConfirmText] = useState("");
-  const [timeRange, setTimeRange] = useState<"24h" | "7d" | "all">("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [purgeReactions, setPurgeReactions] = useState(false);
-  const [onlyAttachments, setOnlyAttachments] = useState(false);
-  const [simulation, setSimulation] = useState(false);
-  const [closeEmptyDms, setCloseEmptyDms] = useState(false);
 
-  // Export Specific States
-  const [exportDirection, setExportDirection] = useState<
-    "sent" | "received" | "both"
-  >("both");
-  const [includeAttachmentsInHtml, setIncludeAttachmentsInHtml] =
-    useState(true);
-
-  // New Audit States
-  const [authorizedApps, setAuthorizedApps] = useState<any[]>([]);
-  const [gdprStatus, setGdprStatus] = useState<any>(null);
-  const [billingInfo, setBillingInfo] = useState<any>(null);
-
-  const {
-    selectedGuilds,
-    setSelectedGuilds,
-    channelsByGuild,
-    setChannelsByGuild,
-    selectedChannels,
-    setSelectedChannels,
-    selectedGuildsToLeave,
-    setSelectedGuildsToLeave,
-    selectedRelationships,
-    setSelectedRelationships,
-    relationships,
-    setRelationships,
-    previews,
-    setPreviews,
-  } = useSelectionState();
-
-  const {
-    isProcessing,
-    setIsProcessing,
-    isComplete,
-    setIsComplete,
-    progress,
-    setProgress,
-    operationStatus,
-    setOperationStatus,
-    getOperationStatus,
-    handlePause,
-    handleResume,
-    handleAbort,
-    resetProcessing,
-  } = useOperationControl();
+  const selection = useSelectionState();
+  const control = useOperationControl();
+  const messageOps = useMessageOps(handleApiError);
+  const serverOps = useServerOps(handleApiError);
+  const identityOps = useIdentityOps(handleApiError);
+  const securityOps = useSecurityOps(handleApiError);
+  const privacyOps = usePrivacyOps(handleApiError);
+  const accountOps = useAccountOps(handleApiError);
+  const exportOps = useExportOps(handleApiError);
+  const generalOps = useGeneralOps(
+    handleApiError,
+    control.setIsProcessing,
+    control.setIsComplete,
+  );
 
   const fetchGuilds = useCallback(
     async (forceRefresh: boolean = false) => {
+      const state = useAuthStore.getState();
       if (
         !forceRefresh &&
-        guilds &&
-        guilds.length > 0 &&
+        state.guilds &&
+        state.guilds.length > 0 &&
         !isFetchingGuildsRef.current
       ) {
-        // Guilds already loaded, no need to refetch unless forced
         return;
       }
       if (isFetchingGuildsRef.current) {
-        // Already fetching, prevent concurrent calls
         return;
       }
 
@@ -95,123 +71,65 @@ export const useDiscordOperations = (
         isFetchingGuildsRef.current = false;
       }
     },
-    [setLoading, setGuilds, handleApiError, guilds],
+    [setLoading, setGuilds, handleApiError],
   );
-
-  const fetchSecurityAudit = useCallback(async () => {
-    setLoading(true);
-    try {
-      setAuthorizedApps(await invoke("fetch_oauth_tokens"));
-    } catch (err: any) {
-      handleApiError(err, "Failed to audit third-party apps.");
-    } finally {
-      setLoading(false);
-    }
-  }, [setLoading, handleApiError]);
-
-  const fetchPrivacyAudit = useCallback(async () => {
-    setLoading(true);
-    try {
-      setGdprStatus(await invoke("get_harvest_status"));
-    } catch (err: any) {
-      handleApiError(err, "Failed to fetch GDPR status.");
-    } finally {
-      setLoading(false);
-    }
-  }, [setLoading, handleApiError]);
-
-  const fetchAccountAudit = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [paymentSources, subscriptions] = await Promise.all([
-        invoke("fetch_payment_sources"),
-        invoke("fetch_billing_subscriptions"),
-      ]);
-      setBillingInfo({ paymentSources, subscriptions });
-    } catch (err: any) {
-      handleApiError(err, "Failed to fetch financial footprint.");
-    } finally {
-      setLoading(false);
-    }
-  }, [setLoading, handleApiError]);
-
-  const handleTriggerHarvest = async () => {
-    setLoading(true);
-    try {
-      await invoke("trigger_data_harvest");
-      setError("GDPR Data Harvest protocol triggered.");
-      fetchPrivacyAudit();
-    } catch (err: any) {
-      handleApiError(err, "Failed to trigger harvest.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleMaxPrivacySanitize = async () => {
-    setLoading(true);
-    try {
-      await invoke("set_max_privacy_settings");
-      setError("Maximum privacy hardening applied.");
-    } catch (err: any) {
-      handleApiError(err, "Failed to apply privacy hardening.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRevokeApp = async (tokenId: string) => {
-    setLoading(true);
-    try {
-      await invoke("revoke_oauth_token", { tokenId });
-      setError("Third-party authorization shredded.");
-      fetchSecurityAudit();
-    } catch (err: any) {
-      handleApiError(err, "Failed to revoke access.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const fetchRelationships = useCallback(async () => {
     setLoading(true);
     try {
-      setRelationships(await invoke("fetch_relationships"));
+      selection.setRelationships(await invoke("fetch_relationships"));
     } catch (err: any) {
       handleApiError(err, "Failed to load identity links.");
     } finally {
       setLoading(false);
     }
-  }, [setLoading, setRelationships, handleApiError]);
+  }, [setLoading, selection.setRelationships, handleApiError]);
 
-  const handleNitroWipe = async () => {
-    setLoading(true);
+  const startAction = async () => {
+    const required =
+      mode === "messages" ? "DELETE" : mode === "servers" ? "LEAVE" : "REMOVE";
+    if (confirmText !== required) return;
+
+    control.setIsProcessing(true);
+    control.setIsComplete(false);
+    setConfirmText("");
+
     try {
-      await invoke("nitro_stealth_wipe");
-      setError("Nitro stealth wipe protocol execution complete.");
-    } catch (err: any) {
-      handleApiError(err, "Nitro stealth wipe failed.");
-    } finally {
-      setLoading(false);
+      if (mode === "messages") {
+        await messageOps.startMessageDeletion();
+      } else if (mode === "servers") {
+        await serverOps.startServerLeave();
+      } else if (mode === "identity") {
+        await identityOps.startRelationshipCleanup();
+      }
+    } catch (err) {
+      control.setIsProcessing(false);
     }
   };
 
-  const handleStealthWipe = async () => {
-    setLoading(true);
+  const fetchPreview = async (channelId: string) => {
     try {
-      await invoke("stealth_privacy_wipe");
-      setError("Stealth protocol execution complete.");
-    } catch (err: any) {
-      handleApiError(err, "Stealth wipe failed.");
-    } finally {
-      setLoading(false);
+      selection.setPreviews(
+        await invoke<PreviewMessage[]>("fetch_preview_messages", { channelId }),
+      );
+    } catch (err) {
+      // Ignore preview errors for now
     }
   };
 
-  const handleToggleGuildSelection = async (guild: Guild | null) => {
+  const handleToggleChannel = (id: string) => {
+    const next = new Set(selection.selectedChannels);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    selection.setSelectedChannels(next);
+    if (!next.has(id)) selection.setPreviews([]);
+    else fetchPreview(id);
+  };
+
+  const handleToggleGuildSelection = async (guild: any | null) => {
     const effectiveId = guild?.id || "dms";
 
-    setSelectedGuilds((prev) => {
+    selection.setSelectedGuilds((prev: Set<string>) => {
       const next = new Set(prev);
       if (next.has(effectiveId)) {
         next.delete(effectiveId);
@@ -221,9 +139,8 @@ export const useDiscordOperations = (
       return next;
     });
 
-    if (!selectedGuilds.has(effectiveId)) {
-      // If guild is being added
-      if (channelsByGuild.has(effectiveId)) {
+    if (!selection.selectedGuilds.has(effectiveId)) {
+      if (selection.channelsByGuild.has(effectiveId)) {
         return;
       }
 
@@ -232,7 +149,7 @@ export const useDiscordOperations = (
         const fetchedChannels: Channel[] = await invoke("fetch_channels", {
           guildId: guild?.id || null,
         });
-        setChannelsByGuild((prev) => {
+        selection.setChannelsByGuild((prev: Map<string, Channel[]>) => {
           const next = new Map(prev);
           next.set(effectiveId, fetchedChannels);
           return next;
@@ -242,7 +159,7 @@ export const useDiscordOperations = (
           err,
           `Failed to load buffers for ${guild?.name || "Direct Messages"}.`,
         );
-        setSelectedGuilds((prev) => {
+        selection.setSelectedGuilds((prev: Set<string>) => {
           const next = new Set(prev);
           next.delete(effectiveId);
           return next;
@@ -251,14 +168,14 @@ export const useDiscordOperations = (
         setLoading(false);
       }
     } else {
-      setChannelsByGuild((prev) => {
+      selection.setChannelsByGuild((prev: Map<string, Channel[]>) => {
         const next = new Map(prev);
         const removedChannels = next.get(effectiveId) || [];
         next.delete(effectiveId);
 
-        setSelectedChannels((prevSelected) => {
+        selection.setSelectedChannels((prevSelected: Set<string>) => {
           const nextSelected = new Set(prevSelected);
-          removedChannels.forEach((c) => nextSelected.delete(c.id));
+          removedChannels.forEach((c: Channel) => nextSelected.delete(c.id));
           return nextSelected;
         });
 
@@ -267,393 +184,25 @@ export const useDiscordOperations = (
     }
   };
 
-  const fetchPreview = async (channelId: string) => {
-    try {
-      setPreviews(
-        await invoke<PreviewMessage[]>("fetch_preview_messages", { channelId }),
-      );
-    } catch (err) {
-      // Ignore preview errors
-    }
-  };
-
-  const handleToggleChannel = (id: string) => {
-    const next = new Set(selectedChannels);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    setSelectedChannels(next);
-    if (!next.has(id)) setPreviews([]);
-    else fetchPreview(id);
-  };
-
-  const handleBuryAuditLog = async () => {
-    if (selectedGuilds.size === 0 || selectedChannels.size === 0) {
-      setError(
-        "Please select at least one guild and one channel for audit log burial.",
-      );
-      return;
-    }
-    const guildId = Array.from(selectedGuilds)[0];
-    if (guildId === "dms") {
-      setError("Audit log burial cannot be performed on DMs.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const channelId = Array.from(selectedChannels)[0];
-      await invoke("bury_audit_log", { guildId, channelId });
-      setError(
-        "Audit log burial initiated. Check Discord's audit log for details.",
-      );
-    } catch (err: any) {
-      handleApiError(err, "Failed to bury audit log.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleWebhookGhosting = async () => {
-    if (selectedGuilds.size === 0) {
-      setError("Please select a guild for webhook ghosting.");
-      return;
-    }
-    const guildId = Array.from(selectedGuilds)[0];
-    if (guildId === "dms") {
-      setError("Webhook ghosting cannot be performed on DMs.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await invoke("webhook_ghosting", { guildId });
-      setError("Webhook Ghosting initiated.");
-    } catch (err: any) {
-      handleApiError(err, "Failed to perform webhook ghosting.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleOpenDonateLink = async () => {
-    try {
-      await invoke("open_external_link", {
-        url: "https://www.buymeacoffee.com/discordpurge",
-      });
-    } catch (err: any) {
-      handleApiError(err, "Failed to open donate link.");
-    }
-  };
-
-  const handleOpenDiscordUrl = async (actionType: string) => {
-    try {
-      await invoke("open_discord_url_for_action", { actionType });
-    } catch (err: any) {
-      handleApiError(err, "Failed to open Discord gateway.");
-    }
-  };
-
-  const handleStartExport = async (format: "html" | "raw") => {
-    if (selectedChannels.size === 0) {
-      setError("Please select at least one channel to export.");
-      return;
-    }
-
-    const selectedPath = await open({
-      directory: true,
-      multiple: false,
-      title: "Select Output Directory",
-    });
-
-    if (!selectedPath) return;
-
-    setIsProcessing(true);
-    setIsComplete(false);
-    try {
-      if (format === "raw") {
-        await invoke("start_attachment_harvest", {
-          options: {
-            channelIds: Array.from(selectedChannels),
-            direction: exportDirection,
-            includeAttachments: true,
-            exportFormat: "raw",
-            outputPath: selectedPath,
-          },
-        });
-      } else {
-        await invoke("start_chat_html_export", {
-          options: {
-            channelIds: Array.from(selectedChannels),
-            direction: "both",
-            includeAttachments: includeAttachmentsInHtml,
-            exportFormat: "html",
-            outputPath: selectedPath,
-          },
-        });
-      }
-    } catch (err: any) {
-      handleApiError(err, "Export protocol failed.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleStartGuildArchive = async () => {
-    if (selectedGuilds.size === 0) {
-      setError("Please select a guild to archive.");
-      return;
-    }
-    const guildId = Array.from(selectedGuilds)[0];
-    if (guildId === "dms") {
-      setError("Guild archive protocol is not applicable to DMs.");
-      return;
-    }
-
-    const selectedPath = await save({
-      filters: [{ name: "Archive", extensions: ["zip"] }],
-      defaultPath: `archive_${guildId}.zip`,
-    });
-
-    if (!selectedPath) return;
-
-    setIsProcessing(true);
-    setIsComplete(false);
-    try {
-      await invoke("start_guild_user_archive", {
-        guildId,
-        outputPath: selectedPath,
-      });
-    } catch (err: any) {
-      handleApiError(err, "Guild archival failed.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleSetHypesquad = async (houseId: number) => {
-    setLoading(true);
-    try {
-      await invoke("set_hypesquad", { houseId });
-      setError(`Hypesquad affiliation updated to House ${houseId}.`);
-    } catch (err: any) {
-      handleApiError(err, "Failed to update Hypesquad.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGhostProfile = async () => {
-    setLoading(true);
-    try {
-      await invoke("ghost_profile");
-      setError("Profile Ghosting protocol complete.");
-    } catch (err: any) {
-      handleApiError(err, "Profile ghosting failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleProcessGdprData = async () => {
-    const selected = await open({
-      multiple: false,
-      filters: [{ name: "Discord Data Package", extensions: ["zip"] }],
-    });
-    if (!selected) return;
-
-    setLoading(true);
-    try {
-      const discovery: any = await invoke("process_gdpr_data", {
-        zipPath: selected,
-      });
-      setError(
-        `GDPR Discovery complete: Found ${discovery.channel_ids.length} channels and ${discovery.guild_ids.length} guilds.`,
-      );
-      // We could use this discovery to populate state
-    } catch (err: any) {
-      handleApiError(err, "Failed to process GDPR data.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSetProxy = async (proxyUrl: string | null) => {
-    setLoading(true);
-    try {
-      await invoke("set_proxy", { proxyUrl });
-      setError(proxyUrl ? "Traffic routed through proxy." : "Proxy disabled.");
-    } catch (err: any) {
-      handleApiError(err, "Failed to set proxy.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Triggers the Anti-Forensic Burner Protocol.
-   * Shreds all local data files (cache, vault, logs) and resets the app.
-   */
-  const handleBurnEvidence = async () => {
-    if (
-      !confirm(
-        "CRITICAL: This will SHRED all local data (tokens, cache, logs) using a multi-pass overwrite. This is irreversible and will defeat forensic recovery. Proceed?",
-      )
-    )
-      return;
-
-    setLoading(true);
-    try {
-      await invoke("start_burner_protocol");
-      useAuthStore.getState().reset();
-      window.location.reload(); // Force full app reset
-    } catch (err: any) {
-      handleApiError(err, "Burner protocol failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Triggers the "Nuclear Option": A complete digital footprint wipe.
-   * Resets profile, privacy settings, leaves all guilds, and removes all friends.
-   */
-  const handleNuclearWipe = async () => {
-    setIsProcessing(true);
-    setIsComplete(false);
-    try {
-      await invoke("nuclear_wipe");
-      setIsComplete(true);
-      setError("Nuclear protocol complete. Your account is sanitized.");
-    } catch (err: any) {
-      handleApiError(err, "Nuclear wipe failed.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  /**
-   * Triggers the primary cleanup action based on the current mode.
-   * Handles message purging, server departures, and relationship removals.
-   */
-  const startAction = async () => {
-    const required =
-      mode === "messages" ? "DELETE" : mode === "servers" ? "LEAVE" : "REMOVE";
-    if (confirmText !== required) return;
-    setIsProcessing(true);
-    setIsComplete(false);
-    setConfirmText("");
-    try {
-      if (mode === "messages") {
-        const now = Date.now();
-        const start =
-          timeRange === "24h"
-            ? now - 86400000
-            : timeRange === "7d"
-              ? now - 604800000
-              : undefined;
-        await invoke("bulk_delete_messages", {
-          options: {
-            channelIds: Array.from(selectedChannels),
-            startTime: start,
-            endTime: undefined,
-            searchQuery: searchQuery || undefined,
-            purgeReactions,
-            simulation,
-            onlyAttachments,
-            closeEmptyDms,
-          },
-        });
-      } else if (mode === "servers") {
-        await invoke("bulk_leave_guilds", {
-          guildIds: Array.from(selectedGuildsToLeave),
-        });
-      } else if (mode === "identity") {
-        await invoke("bulk_cleanup_relationships", {
-          userIds: Array.from(selectedRelationships),
-          action: "remove", // Default to remove, could be parameterized
-        });
-      }
-    } catch (err: any) {
-      handleApiError(err, "Protocol execution error.");
-      setIsProcessing(false);
-    }
-  };
-
   return {
     mode,
     setMode,
-    selectedGuilds,
-    setSelectedGuilds,
-    channelsByGuild,
-    setChannelsByGuild,
-    relationships,
-    setRelationships,
-    previews,
-    setPreviews,
-    selectedChannels,
-    setSelectedChannels,
-    selectedGuildsToLeave,
-    setSelectedGuildsToLeave,
-    selectedRelationships,
-    setSelectedRelationships,
-    isProcessing,
-    setIsProcessing,
-    isComplete,
-    setIsComplete,
-    resetProcessing,
-    progress,
-    setProgress,
     confirmText,
     setConfirmText,
-    timeRange,
-    setTimeRange,
-    searchQuery,
-    setSearchQuery,
-    purgeReactions,
-    setPurgeReactions,
-    onlyAttachments,
-    setOnlyAttachments,
-    simulation,
-    setSimulation,
-    closeEmptyDms,
-    setCloseEmptyDms,
-    operationStatus,
-    setOperationStatus,
     fetchGuilds,
     fetchRelationships,
-    getOperationStatus,
-    handleNitroWipe,
-    handleStealthWipe,
-    handleToggleGuildSelection,
-    handleToggleChannel,
-    handlePause,
-    handleResume,
-    handleAbort,
-    handleBuryAuditLog,
-    handleWebhookGhosting,
-    handleOpenDonateLink,
-    handleOpenDiscordUrl,
-    handleTriggerHarvest,
-    handleMaxPrivacySanitize,
-    handleRevokeApp,
-    fetchSecurityAudit,
-    fetchPrivacyAudit,
-    fetchAccountAudit,
-    authorizedApps,
-    gdprStatus,
-    billingInfo,
-    exportDirection,
-    setExportDirection,
-    includeAttachmentsInHtml,
-    setIncludeAttachmentsInHtml,
-    handleStartExport,
-    handleStartGuildArchive,
-    handleSetHypesquad,
-    handleGhostProfile,
-    handleProcessGdprData,
-    handleSetProxy,
-    handleBurnEvidence,
-    handleNuclearWipe,
     startAction,
+    handleToggleChannel,
+    handleToggleGuildSelection,
+    ...selection,
+    ...control,
+    ...messageOps,
+    ...serverOps,
+    ...identityOps,
+    ...securityOps,
+    ...privacyOps,
+    ...accountOps,
+    ...exportOps,
+    ...generalOps,
   };
 };

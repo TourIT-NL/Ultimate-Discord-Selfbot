@@ -15,7 +15,8 @@ interface OperationOverlayProps {
     | "identity"
     | "security"
     | "privacy"
-    | "account";
+    | "account"
+    | "export";
   onPause: () => void;
   onResume: () => void;
   onAbort: () => void;
@@ -102,7 +103,9 @@ export const OperationOverlay = ({
                   ? "Purging Nodes"
                   : mode === "servers"
                     ? "Severing Nodes"
-                    : "Nullifying Identity"}
+                    : mode === "export"
+                      ? "Extracting Data"
+                      : "Nullifying Identity"}
               </h2>
               <div className="flex items-center justify-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-m3-error animate-ping" />

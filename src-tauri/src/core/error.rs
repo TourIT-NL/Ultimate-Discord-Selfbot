@@ -9,6 +9,8 @@ pub struct AppError {
     pub discord_code: Option<u32>,
     pub semantic_error: Option<DiscordError>,
     pub technical_details: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub client_id_for_confirmation: Option<String>,
 }
 
 impl std::fmt::Display for AppError {
@@ -29,6 +31,18 @@ impl AppError {
             discord_code: None,
             semantic_error: None,
             technical_details: None,
+            client_id_for_confirmation: None,
+        }
+    }
+
+    pub fn client_id_extrapolation_needed(client_id: String) -> Self {
+        Self {
+            user_message: "We've dynamically found a Discord Client ID. Do you want to use it for authentication?".into(),
+            error_code: "client_id_extrapolation_needed".into(),
+            technical_details: Some(format!("Extrapolated Client ID: {}", client_id)),
+            client_id_for_confirmation: Some(client_id),
+            discord_code: None,
+            semantic_error: None,
         }
     }
 
@@ -59,6 +73,7 @@ impl AppError {
             discord_code: Some(code),
             semantic_error: Some(semantic),
             technical_details: Some(json.to_string()),
+            client_id_for_confirmation: None,
         }
     }
 }

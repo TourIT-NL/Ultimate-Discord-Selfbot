@@ -1,8 +1,11 @@
 // src-tauri/src/api/rate_limiter/mod.rs
 
 pub mod actor;
+pub mod client_builder;
 pub mod fingerprint;
 pub mod handle;
+pub mod rate_limit_handler;
+pub mod request_handler;
 pub mod types;
 
 pub use actor::RateLimiterActor;

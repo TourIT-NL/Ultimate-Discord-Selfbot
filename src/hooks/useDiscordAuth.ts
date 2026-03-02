@@ -1,54 +1,22 @@
-import { useState, useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useAuthStore } from "../store/authStore";
-import { DiscordStatus, DiscordIdentity, DiscordUser } from "../types/discord";
+import { useVault } from "./useVault";
+import { useAuthMethods } from "./useAuthMethods";
+import { useDiscordPresence } from "./useDiscordPresence";
 
-/**
- * Custom hook for managing the Discord authentication lifecycle.
- * Handles primary login flows (OAuth2, RPC, QR, Token), identity listing,
- * and automatic status detection of the Discord desktop client.
- *
- * @returns An object containing auth-related state and handlers.
- */
 export const useDiscordAuth = () => {
-  const {
-    setAuthenticated,
-    setLoading,
-    setError,
-    reset,
-    isLoading,
-    view,
-    setView,
-  } = useAuthStore();
-
-  const [identities, setIdentities] = useState<DiscordIdentity[]>([]);
-  const [discordStatus, setDiscordStatus] = useState<DiscordStatus | null>(
-    null,
-  );
-  const [qrUrl, setQrUrl] = useState<string | null>(null);
-  const [qrScanned, setQrScanned] = useState(false);
-  const [clientId, setClientId] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
-  const [manualToken, setManualToken] = useState("");
-  const [unlockPassword, setUnlockPassword] = useState("");
-  const [newMasterPassword, setNewMasterPassword] = useState("");
-  const [confirmMasterPassword, setConfirmMasterPassword] = useState("");
-
-  /**
-   * Transforms raw API errors into user-friendly messages while
-   * logging deep technical details to the developer console.
-   */
-  const formatApiError = (err: any, fallback: string) => {
-    const msg = typeof err === "string" ? err : err.user_message || fallback;
-    const detail = err.technical_details ? ` (${err.technical_details})` : "";
-    return `${msg}${detail}`;
-  };
+  const { setLoading, setError, reset, view, setView } = useAuthStore();
 
   const handleApiError = useCallback(
     (err: any, fallback: string) => {
-      const formattedMsg = formatApiError(err, fallback);
+      const msg = typeof err === "string" ? err : err.user_message || fallback;
+      const detail = err.technical_details ? ` (${err.technical_details})` : "";
+      const formattedMsg = `${msg}${detail}`;
+
       console.group(`[API Error] ${fallback}`);
       console.error("Original Error:", err);
+      // Safely parse and log technical details
       if (err.technical_details) {
         try {
           console.error(
@@ -67,101 +35,9 @@ export const useDiscordAuth = () => {
     [setError, setLoading],
   );
 
-  const checkVaultLock = useCallback(async () => {
-    try {
-      const hasMaster = await invoke<boolean>("has_master_password");
-      useAuthStore.getState().setHasMasterPassword(hasMaster);
-
-      const locked = await invoke<boolean>("is_vault_locked");
-      useAuthStore.getState().setLocked(locked);
-
-      if (locked) {
-        setView("unlock");
-      }
-    } catch (err) {
-      console.error("Failed to check vault lock:", err);
-    }
-  }, [setView]);
-
-  useEffect(() => {
-    checkVaultLock();
-  }, [checkVaultLock]);
-
-  const handleUnlock = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    setLoading(true);
-    try {
-      await invoke("unlock_vault", { password: unlockPassword });
-      useAuthStore.getState().setLocked(false);
-      setView("auth");
-      setError(null);
-      setUnlockPassword("");
-    } catch (err: any) {
-      handleApiError(err, "Unlock failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSetMasterPassword = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (newMasterPassword !== confirmMasterPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-    setLoading(true);
-    try {
-      await invoke("set_master_password", {
-        password: newMasterPassword || null,
-      });
-      const hasMaster = !!newMasterPassword;
-      useAuthStore.getState().setHasMasterPassword(hasMaster);
-      useAuthStore.getState().setLocked(false);
-      setView("auth");
-      setError(null);
-      setNewMasterPassword("");
-      setConfirmMasterPassword("");
-    } catch (err: any) {
-      handleApiError(err, "Master password setup failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Triggers background Discord desktop client detection.
-   * Includes exponential backoff retry logic for resilience.
-   */
-  const checkStatus = useCallback(async () => {
-    try {
-      const status = await invoke<DiscordStatus>("check_discord_status");
-      setDiscordStatus(status);
-      useAuthStore.getState().resetRetry();
-    } catch (err) {
-      const state = useAuthStore.getState();
-      if (state.retryCount < 5) {
-        state.incrementRetry();
-        const backoff = Math.min(1000 * Math.pow(2, state.retryCount), 10000);
-        console.warn(
-          `[Status] Check failed. Retrying in ${backoff}ms... (${state.retryCount}/5)`,
-        );
-        setTimeout(checkStatus, backoff);
-      } else {
-        console.error(
-          "[Status] Maximum retries reached. Discord detection offline.",
-        );
-        handleApiError(err, "Discord link status unavailable.");
-      }
-    }
-  }, [handleApiError]);
-
-  const fetchIdentities = useCallback(async () => {
-    try {
-      setIdentities(await invoke("list_identities"));
-    } catch (err) {
-      console.error("Failed to fetch identities:", err);
-    }
-  }, []);
+  const vault = useVault(handleApiError);
+  const authMethods = useAuthMethods(handleApiError);
+  const presence = useDiscordPresence(handleApiError);
 
   const handleLogout = async () => {
     try {
@@ -173,158 +49,13 @@ export const useDiscordAuth = () => {
     setView("manual");
   };
 
-  /**
-   * Protocol: Official Gate (OAuth2)
-   * Securely authorizes the app via Discord's web portal.
-   * Requires a developer Application ID and Secret.
-   */
-  const handleLoginOAuth = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      await invoke("start_oauth_flow");
-    } catch (err: any) {
-      if (err.error_code === "credentials_missing") {
-        setView("setup");
-        setError(err.user_message);
-      } else {
-        handleApiError(err, "OAuth handshake failed.");
-      }
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Protocol: QR Signature
-   * Bridges mobile authorization via Discord's remote auth gateway.
-   */
-  const handleLoginQR = async () => {
-    setView("qr");
-    setQrUrl(null);
-    setQrScanned(false);
-    try {
-      await invoke("start_qr_login_flow");
-    } catch (err: any) {
-      handleApiError(err, "QR Gateway failed.");
-      setView("auth");
-    }
-  };
-
-  /**
-   * Signal the backend to terminate an active QR authorization session.
-   */
-  const handleCancelQR = async () => {
-    setLoading(false);
-    setView("auth");
-    try {
-      await invoke("cancel_qr_login");
-    } catch (err) {
-      console.error("Failed to cancel QR login:", err);
-    }
-  };
-
-  /**
-   * Protocol: Local Handshake (RPC)
-   * Rapid zero-config link via the running Discord desktop client.
-   */
-  const handleLoginRPC = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      await invoke("login_with_rpc");
-    } catch (err: any) {
-      if (err.error_code === "credentials_missing") {
-        setView("setup");
-        setError(err.user_message);
-      } else {
-        handleApiError(err, "RPC handshake failed.");
-      }
-    }
-  };
-
-  /**
-   * Protocol: Bypass Mode (User Token)
-   * Manually inject a User Token for high-level private buffer access (DMs/Friends).
-   */
-  const handleLoginToken = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    setLoading(true);
-    try {
-      await invoke("login_with_user_token", {
-        token: manualToken
-          .trim()
-          .replace(/^Bearer\s+/i, "")
-          .replace(/^"|"$/g, ""),
-      });
-      setError(null); // Clear any previous errors
-      setLoading(false); // End loading state on success
-      setView("dashboard"); // Navigate to dashboard
-    } catch (err: any) {
-      handleApiError(err, "Identity validation failed.");
-      setLoading(false); // Ensure loading is false on error too
-    }
-  };
-
-  const handleSaveConfig = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    setLoading(true);
-    try {
-      await invoke("save_discord_credentials", { clientId, clientSecret });
-      setView("auth");
-      setError(null);
-      setTimeout(handleLoginOAuth, 1500);
-    } catch (err: any) {
-      handleApiError(err, "Secure storage failure.");
-    }
-  };
-
-  const handleSwitchIdentity = async (id: string) => {
-    setLoading(true);
-    try {
-      await invoke("switch_identity", { id });
-    } catch (err: any) {
-      handleApiError(err, "Switch failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return {
     view,
     setView,
-    identities,
-    setIdentities,
-    discordStatus,
-    setDiscordStatus,
-    qrUrl,
-    setQrUrl,
-    qrScanned,
-    setQrScanned,
-    clientId,
-    setClientId,
-    clientSecret,
-    setClientSecret,
-    manualToken,
-    setManualToken,
-    unlockPassword,
-    setUnlockPassword,
-    newMasterPassword,
-    setNewMasterPassword,
-    confirmMasterPassword,
-    setConfirmMasterPassword,
-    checkStatus,
-    checkVaultLock,
-    handleUnlock,
-    handleSetMasterPassword,
-    fetchIdentities,
-    handleLogout,
-    handleLoginOAuth,
-    handleLoginQR,
-    handleCancelQR,
-    handleLoginRPC,
-    handleLoginToken,
-    handleSaveConfig,
-    handleSwitchIdentity,
     handleApiError,
+    handleLogout,
+    ...vault,
+    ...authMethods,
+    ...presence,
   };
 };

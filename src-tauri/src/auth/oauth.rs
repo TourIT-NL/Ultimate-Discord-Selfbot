@@ -31,8 +31,18 @@ pub async fn start_oauth_flow(
     Logger::info(&app_handle, "[OAuth] Starting official flow...", None);
 
     // Elaborate OAuthConfig from system intelligence
-    let client_id = Vault::get_credential(&app_handle, "client_id")
-        .unwrap_or_else(|_| SessionAuditor::extrapolate_client_id(&app_handle));
+    let client_id = if let Ok(id) = Vault::get_credential(&app_handle, "client_id") {
+        Logger::debug(&app_handle, "[OAuth] Using client_id from vault.", None);
+        id
+    } else {
+        Logger::debug(
+            &app_handle,
+            "[OAuth] Client ID not in vault, attempting extrapolation.",
+            None,
+        );
+        // This can now return AppError::client_id_extrapolation_needed
+        SessionAuditor::extrapolate_client_id(&app_handle)?
+    };
     let client_secret = Vault::get_credential(&app_handle, "client_secret")
         .ok()
         .map(ClientSecret::new);
@@ -187,6 +197,7 @@ Content-Type: text/html
                 app_handle,
                 window,
                 res.access_token().secret().to_string(),
+                res.refresh_token().map(|t| t.secret().to_string()),
                 true,
             )
             .await
@@ -203,4 +214,44 @@ Content-Type: text/html
             })
         }
     }
+}
+
+pub async fn refresh_oauth_token(
+    app_handle: &AppHandle,
+    current_refresh_token: String,
+) -> Result<(String, Option<String>), AppError> {
+    Logger::info(
+        app_handle,
+        "[OAuth] Attempting to refresh OAuth token...",
+        None,
+    );
+
+    let client_id = Vault::get_credential(app_handle, "client_id")?;
+    let client_secret = Vault::get_credential(app_handle, "client_secret")
+        .ok()
+        .map(ClientSecret::new);
+
+    let client = BasicClient::new(
+        ClientId::new(client_id),
+        client_secret,
+        AuthUrl::new("https://discord.com/oauth2/authorize".to_string()).unwrap(),
+        Some(TokenUrl::new("https://discord.com/api/v9/oauth2/token".to_string()).unwrap()),
+    );
+
+    let token_res = client
+        .exchange_refresh_token(&oauth2::RefreshToken::new(current_refresh_token))
+        .request_async(oauth2::reqwest::async_http_client)
+        .await
+        .map_err(|e| AppError {
+            user_message: "Failed to refresh token.".into(),
+            error_code: "token_refresh_failed".into(),
+            technical_details: Some(format!("{:?}", e)),
+            ..Default::default()
+        })?;
+
+    Logger::info(app_handle, "[OAuth] Token refreshed successfully", None);
+    Ok((
+        token_res.access_token().secret().to_string(),
+        token_res.refresh_token().map(|t| t.secret().to_string()),
+    ))
 }

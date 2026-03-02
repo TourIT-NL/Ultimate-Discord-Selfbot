@@ -13,7 +13,7 @@ use tokio_tungstenite::tungstenite::client::IntoClientRequest;
 use tokio_tungstenite::tungstenite::protocol::Message;
 use uuid::Uuid;
 
-use super::identity::login_with_token_internal;
+use super::identity::{login_with_token_internal, validate_token};
 use super::types::DiscordUser;
 
 #[tauri::command]
@@ -28,13 +28,30 @@ pub async fn login_with_rpc(
     );
 
     // 1. Primary Strategy: Direct Token Extrapolation (Zero-Network, No Secrets)
-    if let Ok(token) = SessionAuditor::extrapolate_token(&app_handle) {
+    if let Ok(token) = SessionAuditor::extrapolate_client_id(&app_handle) {
         Logger::info(
             &app_handle,
-            "[Auth] Extrapolated active session via forensics.",
+            "[Auth] Extrapolated a session token via forensics. Validating...",
             None,
         );
-        return login_with_token_internal(app_handle, window, token, false).await;
+        // We found a token, but it might be stale. Let's validate it.
+        if let Ok(_user_profile) = validate_token(&app_handle, &token, false, None).await {
+            // Token is valid, proceed with login.
+            Logger::info(
+                &app_handle,
+                "[Auth] Extrapolated token is valid. Finalizing session.",
+                None,
+            );
+            return login_with_token_internal(app_handle, window, token.to_string(), None, false)
+                .await;
+        } else {
+            // Token is invalid, so we'll just ignore it and fall through to the next method.
+            Logger::warn(
+                &app_handle,
+                "[Auth] Extrapolated token was stale. Falling back to RPC handshake.",
+                None,
+            );
+        }
     }
 
     // 2. Fallback Strategy: RPC WebSocket Handshake
@@ -43,8 +60,10 @@ pub async fn login_with_rpc(
         "[RPC] Falling back to WebSocket handshake.",
         None,
     );
-    let client_id = Vault::get_credential(&app_handle, "client_id")
-        .unwrap_or_else(|_| SessionAuditor::extrapolate_client_id(&app_handle));
+    let client_id = match Vault::get_credential(&app_handle, "client_id") {
+        Ok(id) => Ok(id),
+        Err(_) => SessionAuditor::extrapolate_client_id(&app_handle),
+    }?;
 
     let port = (6463..=6472).find(|p| {
         let addr = format!("127.0.0.1:{}", p);
@@ -222,5 +241,5 @@ pub async fn login_with_rpc(
         ..Default::default()
     })?;
 
-    login_with_token_internal(app_handle, window, token.to_string(), true).await
+    login_with_token_internal(app_handle, window, token.to_string(), None, true).await
 }

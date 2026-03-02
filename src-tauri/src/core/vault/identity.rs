@@ -15,6 +15,8 @@ pub struct DiscordIdentity {
     pub username: String,
     /// Encrypted Discord API token (User Token or OAuth2 Access Token).
     pub token: String,
+    /// OAuth2 Refresh Token (if applicable).
+    pub refresh_token: Option<String>,
     /// Whether the token was obtained via OAuth2.
     pub is_oauth: bool,
 }
@@ -120,9 +122,14 @@ impl IdentityManager {
         Self::get_identity(app, &id)
     }
 
+    /// Convenience method to retrieve the active DiscordIdentity.
+    pub fn get_active_identity_struct(app: &AppHandle) -> Result<DiscordIdentity, AppError> {
+        Self::get_active_identity(app)
+    }
+
     /// Convenience method to retrieve the token and OAuth status of the active user.
     pub fn get_active_token(app: &AppHandle) -> Result<(String, bool), AppError> {
-        let identity = Self::get_active_identity(app)?;
+        let identity = Self::get_active_identity_struct(app)?;
         Ok((identity.token, identity.is_oauth))
     }
 
