@@ -22,6 +22,8 @@ function App() {
     setError,
     showDevLog,
     toggleDevLog,
+    setAuthenticated,
+    setUnauthenticated,
   } = useAuthStore();
 
   const { checkStatus, fetchIdentities, handleApiError } = useDiscordAuth();
@@ -42,9 +44,12 @@ function App() {
   useEffect(() => {
     const restoreSession = async () => {
       try {
-        await invoke("get_current_user");
+        const user = await invoke("get_current_user");
+        // @ts-expect-error: The backend returns a DiscordUser object, but the type is not explicitly defined in the invoke call
+        setAuthenticated(user);
       } catch (err) {
         console.log("No active session to restore.");
+        setUnauthenticated();
       }
     };
     restoreSession();
@@ -56,7 +61,13 @@ function App() {
       clearInterval(interval);
       clearInterval(opInterval);
     };
-  }, [checkStatus, fetchIdentities, getOperationStatus]);
+  }, [
+    checkStatus,
+    fetchIdentities,
+    getOperationStatus,
+    setAuthenticated,
+    setUnauthenticated,
+  ]);
 
   return (
     <div className="w-full h-full">

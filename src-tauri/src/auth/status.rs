@@ -9,7 +9,7 @@ use sysinfo::{ProcessRefreshKind, ProcessesToUpdate, System};
 #[tauri::command]
 pub async fn check_discord_status(app_handle: tauri::AppHandle) -> Result<DiscordStatus, AppError> {
     let mut s = System::new();
-    s.refresh_processes_specifics(ProcessesToUpdate::All, true, ProcessRefreshKind::nothing());
+    s.refresh_processes_specifics(ProcessesToUpdate::All, true, ProcessRefreshKind::default());
 
     let discord_proc = s.processes().values().find(|p| {
         p.name()

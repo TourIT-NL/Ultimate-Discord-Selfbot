@@ -4,5 +4,5 @@ pub mod integration;
 pub mod paths;
 pub mod session;
 
-pub use integration::{IntegrationAuditor, RiskReport};
+pub use integration::IntegrationAuditor;
 pub use session::SessionAuditor;

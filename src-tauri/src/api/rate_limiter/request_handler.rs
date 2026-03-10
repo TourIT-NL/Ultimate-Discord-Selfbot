@@ -1,6 +1,6 @@
 use super::fingerprint::{BrowserProfile, FingerprintManager};
 use super::rate_limit_handler::handle_rate_limits;
-use super::types::{ApiRequest, ApiResponseContent, BucketInfo, StandardRequest};
+use super::types::{ApiResponseContent, BucketInfo, StandardRequest};
 use crate::core::error::AppError;
 use crate::core::logger::Logger;
 use crate::core::op_manager::OperationManager;
@@ -54,6 +54,7 @@ pub async fn handle_request(
                 continue;
             }
             b.remaining -= 1;
+            b.last_request_at = now;
         }
 
         let active_profile = req.profile.clone().unwrap_or_else(|| actor_profile.clone());
@@ -68,10 +69,27 @@ pub async fn handle_request(
             "x-super-properties",
             FingerprintManager::generate_super_properties(&active_profile, &active_locale),
         );
-        // ... more headers ...
+        rb = rb.header(
+            "accept-language",
+            FingerprintManager::generate_accept_language(&active_locale),
+        );
+        rb = rb.header(
+            "cookie",
+            FingerprintManager::generate_synthetic_cookies(&active_locale),
+        );
+        rb = rb.header("x-discord-locale", &active_locale);
+        if let Some(tz) = req.timezone.clone() {
+            rb = rb.header("x-discord-timezone", tz);
+        }
+
+        for (name, val) in FingerprintManager::generate_client_hints(&active_profile) {
+            rb = rb.header(name, val);
+        }
 
         if let Some(r) = req.referer.clone() {
             rb = rb.header("referer", r);
+        } else if req.url.contains("/messages") {
+            rb = rb.header("referer", "https://discord.com/channels/@me");
         }
 
         if req.is_bearer {

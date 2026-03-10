@@ -73,6 +73,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       error: null,
       needsCredentials: false,
       retryCount: 0,
+      view: "dashboard",
     }),
   setUnauthenticated: () =>
     set({
@@ -82,6 +83,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       isLoading: false,
       error: null,
       retryCount: 0,
+      view: "auth",
     }),
   setLoading: (loading) => set({ isLoading: loading }),
   setError: (error, metadata = null) =>

@@ -68,95 +68,215 @@ impl SessionAuditor {
             ));
         }
 
-        let critical_files: Vec<&str> = vec![
-            #[cfg(target_os = "windows")]
-            "Discord.exe",
-            #[cfg(target_os = "macos")]
-            "Discord",
-            #[cfg(target_os = "linux")]
-            "Discord",
-            "modules/discord_desktop_core/index.js",
-            "modules/discord_desktop_core/core.asar",
-            "package.json",
-        ];
-
-        for base_path in base_paths {
+        let mut integrity_verified = false;
+        'base_path_loop: for base_path in &base_paths {
             Logger::debug(
                 app,
                 &format!("[Forensics] Checking integrity in: {:?}", base_path),
                 None,
             );
 
-            for file_suffix in &critical_files {
-                let file_path = base_path.join(file_suffix);
+            // 1. Check for executable
+            let exe_name = {
+                #[cfg(target_os = "windows")]
+                {
+                    "Discord.exe"
+                }
+                #[cfg(target_os = "macos")]
+                {
+                    "Discord"
+                } // This is likely inside Contents/MacOS/
+                #[cfg(target_os = "linux")]
+                {
+                    "Discord"
+                }
+            };
 
-                if !file_path.exists() {
+            let exe_path = base_path.join(exe_name);
+            if !exe_path.is_file() {
+                Logger::warn(
+                    app,
+                    &format!(
+                        "[Forensics] Discord executable not found at: {:?}",
+                        exe_path
+                    ),
+                    None,
+                );
+                continue; // Try next base_path
+            }
+
+            // Hash verification for exe_path (existing logic from original)
+            match fs::File::open(&exe_path) {
+                Ok(mut file) => {
+                    let mut hasher = Sha256::new();
+                    match copy(&mut file, &mut hasher) {
+                        Ok(_) => {
+                            let hash = hasher.finalize();
+                            Logger::debug(
+                                app,
+                                &format!(
+                                    "[Forensics] Verified executable: {:?} Hash: {:x}",
+                                    exe_path, hash
+                                ),
+                                None,
+                            );
+                        }
+                        Err(_e) => {
+                            Logger::warn(
+                                app,
+                                &format!(
+                                    "Failed to read and hash Discord executable: {:?}",
+                                    exe_path
+                                ),
+                                None,
+                            );
+                            continue; // This base_path is problematic
+                        }
+                    }
+                }
+                Err(_) => {
                     Logger::warn(
                         app,
                         &format!(
-                            "[Forensics] Critical Discord file not found: {:?}",
-                            file_path
+                            "Failed to open Discord executable for integrity check: {:?}",
+                            exe_path
                         ),
                         None,
                     );
-                    return Err(AppError::new(
-                        &format!("Critical Discord file not found: {:?}", file_path),
-                        "discord_file_missing",
-                    ));
+                    continue; // This base_path is problematic
                 }
+            }
 
-                if !file_path.is_file() {
-                    return Err(AppError::new(
-                        &format!("Expected file is not a file: {:?}", file_path),
-                        "discord_file_invalid_type",
-                    ));
-                }
+            // 2. Check for modules
+            let modules_dir = base_path.join("modules");
+            if !modules_dir.is_dir() {
+                Logger::warn(
+                    app,
+                    &format!(
+                        "[Forensics] 'modules' directory not found in: {:?}",
+                        base_path
+                    ),
+                    None,
+                );
+                continue; // Try next base_path
+            }
 
-                match fs::File::open(&file_path) {
-                    Ok(mut file) => {
-                        let mut hasher = Sha256::new();
-                        match copy(&mut file, &mut hasher) {
-                            Ok(_) => {
-                                let hash = hasher.finalize();
-                                Logger::debug(
-                                    app,
-                                    &format!(
-                                        "[Forensics] Verified file: {:?} Hash: {:x}",
-                                        file_path, hash
-                                    ),
-                                    None,
-                                );
-                            }
-                            Err(_e) => {
-                                return Err(AppError::new(
-                                    &format!(
-                                        "Failed to read and hash Discord file: {:?}",
-                                        file_path
-                                    ),
-                                    "discord_file_read_error",
-                                ));
+            let mut core_module_found = false;
+            if let Ok(entries) = std::fs::read_dir(&modules_dir) {
+                for entry in entries.flatten() {
+                    let path = entry.path();
+                    if path.is_dir() {
+                        if let Some(dir_name) = path.file_name().and_then(|s| s.to_str()) {
+                            if dir_name.starts_with("discord_desktop_core-") {
+                                let core_module_root = path; // This is the path to discord_desktop_core-1
+                                let core_module_path =
+                                    core_module_root.join("discord_desktop_core");
+
+                                let index_js = core_module_path.join("index.js");
+                                let core_asar = core_module_path.join("core.asar");
+                                let package_json = core_module_path.join("package.json");
+
+                                let critical_core_module_files =
+                                    vec![index_js, core_asar, package_json];
+
+                                let mut all_files_in_core_found = true;
+                                for file_path in critical_core_module_files {
+                                    if !file_path.is_file() {
+                                        Logger::warn(
+                                            app,
+                                            &format!(
+                                                "[Forensics] Critical Discord module file not found: {:?}",
+                                                file_path
+                                            ),
+                                            None,
+                                        );
+                                        all_files_in_core_found = false;
+                                        break; // This core module path is invalid
+                                    }
+                                    // Hash verification for module file
+                                    match fs::File::open(&file_path) {
+                                        Ok(mut file) => {
+                                            let mut hasher = Sha256::new();
+                                            match copy(&mut file, &mut hasher) {
+                                                Ok(_) => {
+                                                    let hash = hasher.finalize();
+                                                    Logger::debug(
+                                                        app,
+                                                        &format!(
+                                                            "[Forensics] Verified module file: {:?} Hash: {:x}",
+                                                            file_path, hash
+                                                        ),
+                                                        None,
+                                                    );
+                                                }
+                                                Err(_e) => {
+                                                    Logger::warn(
+                                                        app,
+                                                        &format!(
+                                                            "Failed to read and hash Discord module file: {:?}",
+                                                            file_path
+                                                        ),
+                                                        None,
+                                                    );
+                                                    all_files_in_core_found = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        Err(_) => {
+                                            Logger::warn(
+                                                app,
+                                                &format!(
+                                                    "Failed to open Discord module file for integrity check: {:?}",
+                                                    file_path
+                                                ),
+                                                None,
+                                            );
+                                            all_files_in_core_found = false;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if all_files_in_core_found {
+                                    core_module_found = true;
+                                    break; // Found and verified, we are done with this module scan
+                                }
                             }
                         }
                     }
-                    Err(_) => {
-                        return Err(AppError::new(
-                            &format!(
-                                "Failed to open Discord file for integrity check: {:?}",
-                                file_path
-                            ),
-                            "discord_file_open_error",
-                        ));
-                    }
                 }
             }
+            if !core_module_found {
+                Logger::warn(
+                    app,
+                    &format!(
+                        "[Forensics] Could not find and verify 'discord_desktop_core' within: {:?}",
+                        modules_dir
+                    ),
+                    None,
+                );
+                continue; // Try next base_path
+            }
+
+            // If we reach here, both exe and modules are verified for this base_path
+            integrity_verified = true;
+            break 'base_path_loop;
         }
 
-        Logger::info(
-            app,
-            "[Forensics] Discord client integrity check completed successfully.",
-            None,
-        );
-        Ok(())
+        if integrity_verified {
+            Logger::info(
+                app,
+                "[Forensics] Discord client integrity check completed successfully.",
+                None,
+            );
+            Ok(())
+        } else {
+            Err(AppError::new(
+                "Failed to verify Discord client integrity across all found installations.",
+                "discord_integrity_check_failed",
+            ))
+        }
     }
 
     pub fn extrapolate_client_id(app: &tauri::AppHandle) -> Result<String, AppError> {
@@ -176,9 +296,17 @@ impl SessionAuditor {
         }
 
         let base_paths = get_discord_base_paths();
-        let re = Regex::new(r#"clientId:"([0-9]{18,19})""#).unwrap();
+        // More robust regex to catch variations in minified or formatted JS
+        let re = Regex::new(r#"(?i)client_?id[:=]\s*["']?([0-9]{17,21})["']?"#).unwrap();
 
         for base_path in &base_paths {
+            Logger::debug(
+                app,
+                &format!("[Forensics] Scanning for Client ID in: {:?}", base_path),
+                None,
+            );
+
+            // Priority 1: Check in app resources
             #[cfg(target_os = "windows")]
             if let Ok(entries) = fs::read_dir(base_path) {
                 for entry in entries.filter_map(|e| e.ok()) {
@@ -191,8 +319,15 @@ impl SessionAuditor {
                     {
                         let app_resources_path = entry_path.join("resources").join("app");
                         if let Some(id) = Self::scrape_js_files(app, &app_resources_path, &re) {
+                            Logger::info(
+                                app,
+                                &format!("[Forensics] Successfully extrapolated client_id: {}", id),
+                                None,
+                            );
                             return Err(AppError::client_id_extrapolation_needed(id));
                         }
+
+                        // Fallback: Check in app.asar if possible (placeholder for future implementation)
                     }
                 }
             }

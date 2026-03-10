@@ -52,11 +52,13 @@ pub fn generate_html_from_messages(
 }
 
 #[tauri::command]
-pub async fn start_chat_html_export(
+pub async fn start_chat_export(
     app_handle: AppHandle,
     window: Window,
     options: ExportOptions,
 ) -> Result<(), AppError> {
+    let identity = Vault::get_active_identity(&app_handle)?;
+    let user_id = identity.id;
     let (token, is_bearer) = Vault::get_active_token(&app_handle)?;
     let api_handle = app_handle.state::<ApiHandle>();
     let op_manager = app_handle.state::<OperationManager>();
@@ -78,7 +80,20 @@ pub async fn start_chat_html_export(
             },
         );
 
-        let messages = fetch_all_messages(channel_id, &api_handle, &token, is_bearer).await?;
+        let all_messages = fetch_all_messages(channel_id, &api_handle, &token, is_bearer).await?;
+
+        // Filter by direction
+        let filtered_messages: Vec<serde_json::Value> = all_messages
+            .into_iter()
+            .filter(|msg| {
+                let msg_author_id = msg["author"]["id"].as_str().unwrap_or("");
+                match options.direction.as_str() {
+                    "sent" => msg_author_id == user_id,
+                    "received" => msg_author_id != user_id,
+                    _ => true, // "both" or default
+                }
+            })
+            .collect();
 
         let _ = window.emit(
             "export_progress",
@@ -86,16 +101,27 @@ pub async fn start_chat_html_export(
                 current: i + 1,
                 total: options.channel_ids.len(),
                 channel_id: channel_id.to_string(),
-                status: "generating_html".to_string(),
-                processed_count: messages.len(),
+                status: format!("generating_{}", options.format),
+                processed_count: filtered_messages.len(),
             },
         );
 
-        let html_content = generate_html_from_messages(&messages, options.include_attachments);
-        let file_path = output_dir.join(format!("{}.html", channel_id));
+        let (ext, content) = if options.format == "raw" {
+            (
+                "json",
+                serde_json::to_string_pretty(&filtered_messages).unwrap(),
+            )
+        } else {
+            (
+                "html",
+                generate_html_from_messages(&filtered_messages, options.include_attachments),
+            )
+        };
+
+        let file_path = output_dir.join(format!("{}.{}", channel_id, ext));
         let mut file = File::create(file_path)
             .map_err(|e| AppError::new("File Creation Error", &e.to_string()))?;
-        file.write_all(html_content.as_bytes())
+        file.write_all(content.as_bytes())
             .map_err(|e| AppError::new("File Write Error", &e.to_string()))?;
     }
 

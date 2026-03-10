@@ -52,6 +52,8 @@ pub async fn start_attachment_harvest(
     window: Window,
     options: ExportOptions,
 ) -> Result<(), AppError> {
+    let identity = Vault::get_active_identity(&app_handle)?;
+    let user_id = identity.id;
     let (token, is_bearer) = Vault::get_active_token(&app_handle)?;
     let api_handle = app_handle.state::<ApiHandle>();
     let op_manager = app_handle.state::<OperationManager>();
@@ -77,6 +79,18 @@ pub async fn start_attachment_harvest(
         let mut attachment_count = 0;
 
         for msg in messages {
+            // Filter by direction
+            let msg_author_id = msg["author"]["id"].as_str().unwrap_or("");
+            let should_process = match options.direction.as_str() {
+                "sent" => msg_author_id == user_id,
+                "received" => msg_author_id != user_id,
+                _ => true,
+            };
+
+            if !should_process {
+                continue;
+            }
+
             if let Some(attachments) = msg.get("attachments").and_then(|a| a.as_array()) {
                 for attachment in attachments {
                     if let (Some(url), Some(filename)) = (

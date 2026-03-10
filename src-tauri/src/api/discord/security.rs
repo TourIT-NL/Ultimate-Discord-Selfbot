@@ -69,6 +69,78 @@ pub async fn revoke_oauth_token(app_handle: AppHandle, token_id: String) -> Resu
 }
 
 #[tauri::command]
+pub async fn fetch_sessions(app_handle: AppHandle) -> Result<serde_json::Value, AppError> {
+    let (token, is_bearer) = Vault::get_active_token(&app_handle)?;
+    let api_handle = app_handle.state::<ApiHandle>();
+
+    Logger::info(&app_handle, "[SECURITY] Auditing active sessions", None);
+
+    api_handle
+        .send_request_json(
+            Method::GET,
+            "https://discord.com/api/v9/users/@me/sessions",
+            None,
+            &token,
+            is_bearer,
+            None,
+        )
+        .await
+}
+
+#[tauri::command]
+pub async fn terminate_all_sessions(app_handle: AppHandle) -> Result<(), AppError> {
+    let (token, is_bearer) = Vault::get_active_token(&app_handle)?;
+    let api_handle = app_handle.state::<ApiHandle>();
+
+    Logger::warn(
+        &app_handle,
+        "[SECURITY] Initiating global deauthentication protocol (Logout All)",
+        None,
+    );
+
+    let _ = api_handle
+        .send_request_json(
+            Method::POST,
+            "https://discord.com/api/v9/users/@me/sessions/logout-all",
+            None,
+            &token,
+            is_bearer,
+            None,
+        )
+        .await?;
+
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn terminate_session(app_handle: AppHandle, session_id: String) -> Result<(), AppError> {
+    let (token, is_bearer) = Vault::get_active_token(&app_handle)?;
+    let api_handle = app_handle.state::<ApiHandle>();
+
+    Logger::warn(
+        &app_handle,
+        &format!("[SECURITY] Terminating specific session: {}", session_id),
+        None,
+    );
+
+    let _ = api_handle
+        .send_request_json(
+            Method::POST,
+            &format!(
+                "https://discord.com/api/v9/users/@me/sessions/{}",
+                session_id
+            ),
+            None,
+            &token,
+            is_bearer,
+            None,
+        )
+        .await?;
+
+    Ok(())
+}
+
+#[tauri::command]
 pub async fn fetch_application_identities(
     app_handle: AppHandle,
 ) -> Result<serde_json::Value, AppError> {

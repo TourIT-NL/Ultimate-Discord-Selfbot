@@ -46,7 +46,7 @@ export const useExportOps = (
           },
         });
       } else {
-        await invoke("start_chat_html_export", {
+        await invoke("start_chat_export", {
           options: {
             channelIds: Array.from(selectedChannels),
             direction: "both",

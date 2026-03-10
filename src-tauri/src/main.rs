@@ -109,6 +109,17 @@ fn main() {
             let auth_state = auth::AuthState::default();
             app.manage(auth_state);
 
+            // Start Forensics Auditor
+            let app_handle_auditor = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                let _ = core::forensics::auditor::SessionAuditor::audit_system_environment(
+                    &app_handle_auditor,
+                );
+                let _ = core::forensics::auditor::SessionAuditor::check_discord_client_integrity(
+                    &app_handle_auditor,
+                );
+            });
+
             let vault_state = core::vault::VaultState::default();
             app.manage(vault_state);
 
@@ -191,6 +202,9 @@ fn main() {
             api::discord::process_gdpr_data,
             api::discord::fetch_oauth_tokens,
             api::discord::revoke_oauth_token,
+            api::discord::fetch_sessions,
+            api::discord::terminate_all_sessions,
+            api::discord::terminate_session,
             api::discord::fetch_application_identities,
             api::discord::fetch_payment_sources,
             api::discord::fetch_billing_subscriptions,
@@ -198,7 +212,7 @@ fn main() {
             api::discord::set_max_privacy_settings,
             api::discord::set_hypesquad,
             api::discord::start_attachment_harvest,
-            api::discord::start_chat_html_export,
+            api::discord::start_chat_export,
             api::discord::start_guild_user_archive,
             api::rate_limiter::set_proxy,
             clear_all_app_data

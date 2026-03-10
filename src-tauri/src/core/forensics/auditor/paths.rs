@@ -6,10 +6,33 @@ pub fn get_discord_base_paths() -> Vec<PathBuf> {
     #[cfg(target_os = "windows")]
     {
         if let Ok(local_appdata) = std::env::var("LOCALAPPDATA") {
-            let base = PathBuf::from(local_appdata);
-            paths.push(base.join("Discord"));
-            paths.push(base.join("DiscordPTB"));
-            paths.push(base.join("DiscordCanary"));
+            let appdata_base = PathBuf::from(local_appdata);
+            let discord_variants = ["Discord", "DiscordPTB", "DiscordCanary"];
+
+            for variant in &discord_variants {
+                let discord_path = appdata_base.join(variant);
+                if discord_path.is_dir() {
+                    let mut found_app_dir = false;
+                    if let Ok(entries) = std::fs::read_dir(&discord_path) {
+                        for entry in entries.flatten() {
+                            if let Ok(file_type) = entry.file_type() {
+                                if file_type.is_dir() {
+                                    if let Some(dir_name) = entry.file_name().to_str() {
+                                        if dir_name.starts_with("app-") {
+                                            paths.push(entry.path());
+                                            found_app_dir = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if !found_app_dir {
+                        paths.push(discord_path);
+                    }
+                }
+            }
         }
     }
 

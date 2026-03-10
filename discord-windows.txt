@@ -1,0 +1,1466 @@
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                locales
+d----          06/03/2026    14:16                modules
+d----          05/03/2026    15:19                resources
+-a---          15/12/2025    18:18         285478 app.ico
+-a---          15/12/2025    18:18         167282 chrome_100_percent.pak
+-a---          15/12/2025    18:18         258304 chrome_200_percent.pak
+-a---          05/03/2026    15:19        4741504 d3dcompiler_47.dll
+-a---          05/03/2026    15:19         483768 discord_wer.dll
+-a---          05/03/2026    15:19      195522488 Discord.exe
+-a---          05/03/2026    15:19        3402168 ffmpeg.dll
+-a---          15/12/2025    18:18       10467680 icudtl.dat
+-a---          05/03/2026    15:19         516024 libEGL.dll
+-a---          05/03/2026    15:19        8061880 libGLESv2.dll
+-a---          02/03/2026    18:26           2048 Microsoft.Gaming.XboxApp.XboxNetwork.winmd
+-a---          25/02/2026    23:57        5837874 resources.pak
+-a---          15/12/2025    18:18         321542 snapshot_blob.bin
+-a---          05/03/2026    15:19        4398008 updater.node
+-a---          15/12/2025    18:18         699577 v8_context_snapshot.bin
+-a---          15/12/2025    18:18            106 vk_swiftshader_icd.json
+-a---          05/03/2026    15:19        5542840 vk_swiftshader.dll
+-a---          05/03/2026    15:19         932792 vulkan-1.dll
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\locales
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          15/12/2025    18:18         551085 af.pak
+-a---          15/12/2025    18:18         894882 am.pak
+-a---          15/12/2025    18:18         989483 ar.pak
+-a---          15/12/2025    18:18        1021539 bg.pak
+-a---          15/12/2025    18:18        1318383 bn.pak
+-a---          15/12/2025    18:18         620352 ca.pak
+-a---          15/12/2025    18:18         641493 cs.pak
+-a---          15/12/2025    18:18         578179 da.pak
+-a---          15/12/2025    18:18         619716 de.pak
+-a---          15/12/2025    18:18        1122828 el.pak
+-a---          15/12/2025    18:18         501127 en-GB.pak
+-a---          15/12/2025    18:18         506816 en-US.pak
+-a---          15/12/2025    18:18         610237 es-419.pak
+-a---          15/12/2025    18:18         609439 es.pak
+-a---          15/12/2025    18:18         554769 et.pak
+-a---          15/12/2025    18:18         915351 fa.pak
+-a---          15/12/2025    18:18         565561 fi.pak
+-a---          15/12/2025    18:18         642180 fil.pak
+-a---          15/12/2025    18:18         661154 fr.pak
+-a---          15/12/2025    18:18        1302433 gu.pak
+-a---          15/12/2025    18:18         802835 he.pak
+-a---          15/12/2025    18:18        1375703 hi.pak
+-a---          15/12/2025    18:18         618610 hr.pak
+-a---          15/12/2025    18:18         663739 hu.pak
+-a---          15/12/2025    18:18         546623 id.pak
+-a---          15/12/2025    18:18         601334 it.pak
+-a---          15/12/2025    18:18         733486 ja.pak
+-a---          15/12/2025    18:18        1490694 kn.pak
+-a---          15/12/2025    18:18         620624 ko.pak
+-a---          15/12/2025    18:18         671548 lt.pak
+-a---          15/12/2025    18:18         669714 lv.pak
+-a---          15/12/2025    18:18        1543420 ml.pak
+-a---          15/12/2025    18:18        1274375 mr.pak
+-a---          15/12/2025    18:18         575562 ms.pak
+-a---          15/12/2025    18:18         554651 nb.pak
+-a---          15/12/2025    18:18         576278 nl.pak
+-a---          15/12/2025    18:18         642802 pl.pak
+-a---          15/12/2025    18:18         602263 pt-BR.pak
+-a---          15/12/2025    18:18         605957 pt-PT.pak
+-a---          15/12/2025    18:18         628938 ro.pak
+-a---          15/12/2025    18:18        1042100 ru.pak
+-a---          15/12/2025    18:18         652613 sk.pak
+-a---          15/12/2025    18:18         625664 sl.pak
+-a---          15/12/2025    18:18         965351 sr.pak
+-a---          15/12/2025    18:18         559190 sv.pak
+-a---          15/12/2025    18:18         589672 sw.pak
+-a---          15/12/2025    18:18        1533429 ta.pak
+-a---          15/12/2025    18:18        1415543 te.pak
+-a---          15/12/2025    18:18        1190425 th.pak
+-a---          15/12/2025    18:18         601935 tr.pak
+-a---          15/12/2025    18:18        1045294 uk.pak
+-a---          15/12/2025    18:18         906744 ur.pak
+-a---          15/12/2025    18:18         715726 vi.pak
+-a---          15/12/2025    18:18         511946 zh-CN.pak
+-a---          15/12/2025    18:18         506400 zh-TW.pak
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_cloudsync-1
+d----          05/03/2026    15:19                discord_desktop_core-1
+d----          05/03/2026    15:19                discord_desktop_overlay-1
+d----          05/03/2026    15:19                discord_dispatch-1
+d----          05/03/2026    15:19                discord_erlpack-1
+d----          05/03/2026    15:19                discord_game_utils-1
+d----          05/03/2026    15:19                discord_hook-1
+d----          05/03/2026    15:19                discord_krisp-1
+d----          05/03/2026    15:19                discord_media-1
+d----          05/03/2026    15:19                discord_modules-1
+d----          05/03/2026    15:19                discord_notifications-1
+d----          05/03/2026    15:19                discord_overlay2-1
+d----          05/03/2026    15:19                discord_rpc-1
+d----          05/03/2026    15:19                discord_spellcheck-1
+d----          06/03/2026    01:31                discord_utils-2
+d----          05/03/2026    15:19                discord_voice-1
+d----          05/03/2026    15:19                discord_zstd-1
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_cloudsync-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_cloudsync
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_cloudsync-1\discord_cloudsync
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19        4415928 discord_cloudsync.node
+-a---          10/12/2025    20:22           4353 index.js
+-a---          15/12/2025    19:02            113 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_desktop_core-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_desktop_core
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_desktop_core-1\discord_desktop_core
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19        9595148 core.asar
+-a---          15/12/2025    19:01             40 index.js
+-a---          15/12/2025    19:01             84 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_desktop_overlay-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_desktop_overlay
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_desktop_overlay-1\discord_desktop_overlay
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19         682424 discord_desktop_overlay.node
+-a---          15/12/2025    19:00          14242 index.js
+-a---          15/12/2025    19:01            119 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_dispatch-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                discord_dispatch
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_dispatch-1\discord_dispatch
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19       10065848 discord_dispatch.node
+-a---          09/03/2026    13:44           3462 dispatch.log
+-a---          10/12/2025    20:22            630 index.js
+-a---          15/12/2025    19:02            112 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_erlpack-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_erlpack
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_erlpack-1\discord_erlpack
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19         564664 discord_erlpack.node
+-a---          10/12/2025    20:22             52 index.js
+-a---          15/12/2025    19:01            111 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_game_utils-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_game_utils
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_game_utils-1\discord_game_utils
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19        1026488 discord_game_utils.node
+-a---          10/12/2025    20:22             55 index.js
+-a---          15/12/2025    19:01            114 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_hook-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_hook
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_hook-1\discord_hook
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                34f6477a8df2f7
+-a---          05/03/2026    15:19         942008 discord_hook.node
+-a---          10/12/2025    20:22            563 index.js
+-a---          02/03/2026    18:29            388 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_hook-1\discord_hook\34f6477a8df2f7
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          02/03/2026    18:35        1098680 discord_overlay_sdk_x64.dll
+-a---          02/03/2026    18:35         936376 discord_overlay_sdk_x86.dll
+-a---          02/03/2026    18:35        1109944 DiscordHook.dll
+-a---          02/03/2026    18:35        1276856 DiscordHook64.dll
+-a---          02/03/2026    18:35         398776 DiscordHookHelper.exe
+-a---          02/03/2026    18:35         520120 DiscordHookHelper64.exe
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_krisp-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                discord_krisp
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_krisp-1\discord_krisp
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                KMS
+-a---          05/03/2026    15:19       15062456 discord_krisp.node
+-a---          10/12/2025    20:22           1044 index.js
+-a---          10/12/2025    20:27       15122004 krisp-bvc-o-pro-v3.kef
+-a---          10/12/2025    20:27        2895574 krisp-nc-o-lite-v1.kef
+-a---          10/12/2025    20:27        5880640 krisp-nc-o-med-v7.kef
+-a---          10/12/2025    20:27        2822586 krisp-nc-o-nb-v2.kef
+-a---          10/12/2025    20:27         592233 krisp-vad-o-v2.kef
+-a---          15/12/2025    19:01            257 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_krisp-1\discord_krisp\KMS
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                logs
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_media-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_media
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_media-1\discord_media
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19         718776 discord_media.node
+-a---          15/12/2025    19:00           3875 index.js
+-a---          15/12/2025    19:02            109 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_modules-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_modules
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_modules-1\discord_modules
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                34f6477a8df2f7
+-a---          05/03/2026    15:19         513976 discord_modules.node
+-a---          10/12/2025    20:22             52 index.js
+-a---          02/03/2026    18:29            307 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_modules-1\discord_modules\34f6477a8df2f7
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                2
+-a---          02/03/2026    18:35         487864 discord_aegis_x64.dll
+-a---          02/03/2026    18:35         370104 discord_aegis_x86.dll
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_modules-1\discord_modules\34f6477a8df2f7\2
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          02/03/2026    18:27        3783512 discord_game_sdk_x64.dll
+-a---          02/03/2026    18:27        3076952 discord_game_sdk_x86.dll
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_notifications
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                node_modules
+-a---          15/12/2025    19:00            208 index.js
+-a---          15/12/2025    19:01           5151 manifest.json
+-a---          15/12/2025    19:00          22782 notifications_win.js
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                .bin
+d----          05/03/2026    15:19                uuid
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\.bin
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          15/12/2025    19:00            296 uuid
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\uuid
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                dist
+-a---          11/11/2025    23:57           1109 LICENSE.md
+-a---          11/11/2025    23:59           4252 package.json
+-a---          11/11/2025    23:59          17706 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\uuid\dist
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                cjs
+d----          05/03/2026    15:19                cjs-browser
+d----          05/03/2026    15:19                esm
+d----          05/03/2026    15:19                esm-browser
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\uuid\dist\cjs
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:59           2382 index.js
+-a---          11/11/2025    23:59            135 max.js
+-a---          11/11/2025    23:59            393 md5.js
+-a---          11/11/2025    23:59            168 native.js
+-a---          11/11/2025    23:59            135 nil.js
+-a---          11/11/2025    23:57             20 package.json
+-a---          11/11/2025    23:59            720 parse.js
+-a---          11/11/2025    23:59            251 regex.js
+-a---          11/11/2025    23:59            399 rng.js
+-a---          11/11/2025    23:59            396 sha1.js
+-a---          11/11/2025    23:59           1271 stringify.js
+-a---          11/11/2025    23:57             77 types.js
+-a---          11/11/2025    23:59           2256 uuid-bin.js
+-a---          11/11/2025    23:59           2893 v1.js
+-a---          11/11/2025    23:59            978 v1ToV6.js
+-a---          11/11/2025    23:59            637 v3.js
+-a---          11/11/2025    23:59           1578 v35.js
+-a---          11/11/2025    23:59           1047 v4.js
+-a---          11/11/2025    23:59            640 v5.js
+-a---          11/11/2025    23:59            620 v6.js
+-a---          11/11/2025    23:59            978 v6ToV1.js
+-a---          11/11/2025    23:59           2339 v7.js
+-a---          11/11/2025    23:59            245 validate.js
+-a---          11/11/2025    23:59            316 version.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\uuid\dist\cjs-browser
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:59           2382 index.js
+-a---          11/11/2025    23:59            135 max.js
+-a---          11/11/2025    23:59           5852 md5.js
+-a---          11/11/2025    23:59            216 native.js
+-a---          11/11/2025    23:59            135 nil.js
+-a---          11/11/2025    23:57             20 package.json
+-a---          11/11/2025    23:59            720 parse.js
+-a---          11/11/2025    23:59            251 regex.js
+-a---          11/11/2025    23:59            525 rng.js
+-a---          11/11/2025    23:59           2431 sha1.js
+-a---          11/11/2025    23:59           1271 stringify.js
+-a---          11/11/2025    23:57             77 types.js
+-a---          11/11/2025    23:59           2256 uuid-bin.js
+-a---          11/11/2025    23:59           2893 v1.js
+-a---          11/11/2025    23:59            978 v1ToV6.js
+-a---          11/11/2025    23:59            637 v3.js
+-a---          11/11/2025    23:59           1578 v35.js
+-a---          11/11/2025    23:59           1047 v4.js
+-a---          11/11/2025    23:59            640 v5.js
+-a---          11/11/2025    23:59            620 v6.js
+-a---          11/11/2025    23:59            978 v6ToV1.js
+-a---          11/11/2025    23:59           2339 v7.js
+-a---          11/11/2025    23:59            245 validate.js
+-a---          11/11/2025    23:59            316 version.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\uuid\dist\esm
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                bin
+-a---          11/11/2025    23:59            636 index.js
+-a---          11/11/2025    23:59             55 max.js
+-a---          11/11/2025    23:59            300 md5.js
+-a---          11/11/2025    23:59             68 native.js
+-a---          11/11/2025    23:59             55 nil.js
+-a---          11/11/2025    23:59            612 parse.js
+-a---          11/11/2025    23:59            171 regex.js
+-a---          11/11/2025    23:59            305 rng.js
+-a---          11/11/2025    23:59            303 sha1.js
+-a---          11/11/2025    23:59           1093 stringify.js
+-a---          11/11/2025    23:57             11 types.js
+-a---          11/11/2025    23:59           1959 uuid-bin.js
+-a---          11/11/2025    23:59           2683 v1.js
+-a---          11/11/2025    23:59            842 v1ToV6.js
+-a---          11/11/2025    23:59            259 v3.js
+-a---          11/11/2025    23:59           1345 v35.js
+-a---          11/11/2025    23:59            883 v4.js
+-a---          11/11/2025    23:59            262 v5.js
+-a---          11/11/2025    23:59            464 v6.js
+-a---          11/11/2025    23:59            842 v6ToV1.js
+-a---          11/11/2025    23:59           2129 v7.js
+-a---          11/11/2025    23:59            142 validate.js
+-a---          11/11/2025    23:59            208 version.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\uuid\dist\esm\bin
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:59             45 uuid
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_notifications-1\discord_notifications\node_modules\uuid\dist\esm-browser
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:59            636 index.js
+-a---          11/11/2025    23:59             55 max.js
+-a---          11/11/2025    23:59           5772 md5.js
+-a---          11/11/2025    23:59            136 native.js
+-a---          11/11/2025    23:59             55 nil.js
+-a---          11/11/2025    23:59            612 parse.js
+-a---          11/11/2025    23:59            171 regex.js
+-a---          11/11/2025    23:59            440 rng.js
+-a---          11/11/2025    23:59           2351 sha1.js
+-a---          11/11/2025    23:59           1093 stringify.js
+-a---          11/11/2025    23:57             11 types.js
+-a---          11/11/2025    23:59           1959 uuid-bin.js
+-a---          11/11/2025    23:59           2683 v1.js
+-a---          11/11/2025    23:59            842 v1ToV6.js
+-a---          11/11/2025    23:59            259 v3.js
+-a---          11/11/2025    23:59           1345 v35.js
+-a---          11/11/2025    23:59            883 v4.js
+-a---          11/11/2025    23:59            262 v5.js
+-a---          11/11/2025    23:59            464 v6.js
+-a---          11/11/2025    23:59            842 v6ToV1.js
+-a---          11/11/2025    23:59           2129 v7.js
+-a---          11/11/2025    23:59            142 validate.js
+-a---          11/11/2025    23:59            208 version.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_overlay2-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_overlay2
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_overlay2-1\discord_overlay2
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          15/12/2025    19:00           3811 Backoff.js
+-a---          05/03/2026    15:19         935352 discord_overlay2.node
+-a---          15/12/2025    19:00           2141 FeatureFlags.js
+-a---          15/12/2025    19:00          12183 host.js
+-a---          15/12/2025    19:00           2651 index.js
+-a---          15/12/2025    19:01            268 manifest.json
+-a---          15/12/2025    19:00           1435 overlay_module.js
+-a---          15/12/2025    19:01             25 package.json
+-a---          15/12/2025    19:00           1512 securityUtils.js
+-a---          15/12/2025    19:00           3071 standalone_host.js
+-a---          10/12/2025    20:22            534 start.html
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_rpc-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_rpc
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_rpc-1\discord_rpc
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                node_modules
+-a---          10/12/2025    20:22             96 index.js
+-a---          15/12/2025    19:01            869 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+-a---          12/01/2026    19:32           5302 RPCIPC.js
+-a---          15/12/2025    18:59           6042 RPCWebSocket.js
+-a---          12/01/2026    19:32           3457 safeEmitter.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_rpc-1\discord_rpc\node_modules
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                ws
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_rpc-1\discord_rpc\node_modules\ws
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                lib
+-a---          11/11/2025    23:57            176 browser.js
+-a---          11/11/2025    23:57            296 index.js
+-a---          11/11/2025    23:57           1106 LICENSE
+-a---          11/11/2025    23:57           1464 package.json
+-a---          11/11/2025    23:57          13824 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_rpc-1\discord_rpc\node_modules\ws\lib
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57           3044 buffer-util.js
+-a---          11/11/2025    23:57            268 constants.js
+-a---          11/11/2025    23:57           4396 event-target.js
+-a---          11/11/2025    23:57           6883 extension.js
+-a---          11/11/2025    23:57           1034 limiter.js
+-a---          11/11/2025    23:57          14314 permessage-deflate.js
+-a---          11/11/2025    23:57          14044 receiver.js
+-a---          11/11/2025    23:57          10826 sender.js
+-a---          11/11/2025    23:57           4648 stream.js
+-a---          11/11/2025    23:57           2494 validation.js
+-a---          11/11/2025    23:57          12585 websocket-server.js
+-a---          11/11/2025    23:57          30905 websocket.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_spellcheck
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                node_modules
+-a---          10/12/2025    20:22             45 index.js
+-a---          23/02/2026    18:29          31860 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                balanced-match
+d----          05/03/2026    15:19                brace-expansion
+d----          05/03/2026    15:19                cld
+d----          05/03/2026    15:19                concat-map
+d----          05/03/2026    15:19                fs.realpath
+d----          05/03/2026    15:19                glob
+d----          05/03/2026    15:19                inflight
+d----          05/03/2026    15:19                inherits
+d----          05/03/2026    15:19                minimatch
+d----          05/03/2026    15:19                node-addon-api
+d----          05/03/2026    15:19                once
+d----          05/03/2026    15:19                path-is-absolute
+d----          05/03/2026    15:19                underscore
+d----          05/03/2026    15:19                wrappy
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\balanced-match
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57           1219 index.js
+-a---          11/11/2025    23:57           1096 LICENSE.md
+-a---          11/11/2025    23:57           1069 package.json
+-a---          11/11/2025    23:57           3502 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\brace-expansion
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          12/11/2025    18:17           4797 index.js
+-a---          11/11/2025    23:57           1096 LICENSE
+-a---          12/11/2025    18:17           1156 package.json
+-a---          11/11/2025    23:57           4058 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\cld
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                bin
+d----          05/03/2026    15:19                build
+d----          05/03/2026    15:19                deps
+-a---          12/11/2025    18:18           2456 index.js
+-a---          11/11/2025    23:57          11358 LICENSE
+-a---          12/11/2025    18:18           1136 package.json
+-a---          12/11/2025    18:18           3075 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\cld\bin
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          12/11/2025    18:18            579 postinstall.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\cld\build
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                Release
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\cld\build\Release
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19        2017720 cld.node
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\cld\deps
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                cld
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\cld\deps\cld
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57          11358 LICENSE
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\concat-map
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                example
+-a---          11/11/2025    23:57            345 index.js
+-a---          11/11/2025    23:57           1073 LICENSE
+-a---          11/11/2025    23:57            989 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\concat-map\example
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            171 map.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\fs.realpath
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57           1308 index.js
+-a---          11/11/2025    23:57           2125 LICENSE
+-a---          11/11/2025    23:57           8542 old.js
+-a---          11/11/2025    23:57            577 package.json
+-a---          11/11/2025    23:57            881 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\glob
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:58           6149 common.js
+-a---          11/11/2025    23:58          19445 glob.js
+-a---          11/11/2025    23:57            976 LICENSE
+-a---          11/11/2025    23:58           1237 package.json
+-a---          11/11/2025    23:58          15237 README.md
+-a---          11/11/2025    23:58          12020 sync.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\inflight
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:59           1365 inflight.js
+-a---          11/11/2025    23:58            748 LICENSE
+-a---          12/11/2025    00:00            658 package.json
+-a---          11/11/2025    23:59            991 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\inherits
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            753 inherits_browser.js
+-a---          11/11/2025    23:57            250 inherits.js
+-a---          11/11/2025    23:57            749 LICENSE
+-a---          11/11/2025    23:57            581 package.json
+-a---          11/11/2025    23:57           1625 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\minimatch
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            765 LICENSE
+-a---          25/02/2026    18:41          27460 minimatch.js
+-a---          25/02/2026    18:41            700 package.json
+-a---          25/02/2026    18:41           8752 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\node-addon-api
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                doc
+d----          05/03/2026    15:19                tools
+-a---          12/11/2025    18:17            130 .editorconfig
+-a---          12/11/2025    18:17          27135 CHANGELOG.md
+-a---          12/11/2025    18:17            159 CODE_OF_CONDUCT.md
+-a---          12/11/2025    18:17           3212 CONTRIBUTING.md
+-a---          12/11/2025    18:17           1412 index.js
+-a---          12/11/2025    18:17           1245 LICENSE.md
+-a---          12/11/2025    18:17           3312 package.json
+-a---          12/11/2025    18:17           8484 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\node-addon-api\doc
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          12/11/2025    18:17           4227 array_buffer.md
+-a---          12/11/2025    18:17           2387 async_context.md
+-a---          12/11/2025    18:17           1369 async_operations.md
+-a---          12/11/2025    18:17          13339 async_worker.md
+-a---          12/11/2025    18:17          11405 basic_types.md
+-a---          12/11/2025    18:17           2560 bigint.md
+-a---          12/11/2025    18:17           1505 boolean.md
+-a---          12/11/2025    18:17           4291 buffer.md
+-a---          12/11/2025    18:17           1327 callback_scope.md
+-a---          12/11/2025    18:17           2547 callbackinfo.md
+-a---          12/11/2025    18:17           1025 checker-tool.md
+-a---          12/11/2025    18:17           3382 class_property_descriptor.md
+-a---          12/11/2025    18:17            901 cmake-js.md
+-a---          12/11/2025    18:17            643 conversion-tool.md
+-a---          12/11/2025    18:17           2259 creating_a_release.md
+-a---          12/11/2025    18:17           6648 dataview.md
+-a---          12/11/2025    18:17         107062 Doxyfile
+-a---          12/11/2025    18:17           1280 env.md
+-a---          12/11/2025    18:17           7199 error_handling.md
+-a---          12/11/2025    18:17           3041 error.md
+-a---          12/11/2025    18:17           2627 escapable_handle_scope.md
+-a---          12/11/2025    18:17           2308 external.md
+-a---          12/11/2025    18:17           8075 function_reference.md
+-a---          12/11/2025    18:17           9655 function.md
+-a---          12/11/2025    18:17            578 generator.md
+-a---          12/11/2025    18:17           1888 handle_scope.md
+-a---          12/11/2025    18:17           1117 memory_management.md
+-a---          12/11/2025    18:17           2990 node-gyp.md
+-a---          12/11/2025    18:17           3647 number.md
+-a---          12/11/2025    18:17           3899 object_lifetime_management.md
+-a---          12/11/2025    18:17           3414 object_reference.md
+-a---          12/11/2025    18:17          21936 object_wrap.md
+-a---          12/11/2025    18:17           5472 object.md
+-a---          12/11/2025    18:17            873 prebuild_tools.md
+-a---          12/11/2025    18:17           2026 promises.md
+-a---          12/11/2025    18:17           8195 property_descriptor.md
+-a---          12/11/2025    18:17           1684 range_error.md
+-a---          12/11/2025    18:17           2971 reference.md
+-a---          12/11/2025    18:17           2296 setup.md
+-a---          12/11/2025    18:17           2476 string.md
+-a---          12/11/2025    18:17           1404 symbol.md
+-a---          12/11/2025    18:17          11211 threadsafe_function.md
+-a---          12/11/2025    18:17           1669 type_error.md
+-a---          12/11/2025    18:17           3804 typed_array_of.md
+-a---          12/11/2025    18:17           1390 typed_array.md
+-a---          12/11/2025    18:17           5987 value.md
+-a---          12/11/2025    18:17           1153 version_management.md
+-a---          12/11/2025    18:17            443 working_with_javascript_values.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\node-addon-api\tools
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          12/11/2025    18:17           3210 check-napi.js
+-a---          12/11/2025    18:17          15753 conversion.js
+-a---          12/11/2025    18:17           3189 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\once
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            765 LICENSE
+-a---          11/11/2025    23:57            935 once.js
+-a---          11/11/2025    23:57            574 package.json
+-a---          11/11/2025    23:57           1772 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\path-is-absolute
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            611 index.js
+-a---          11/11/2025    23:57           1119 license
+-a---          11/11/2025    23:57            733 package.json
+-a---          11/11/2025    23:57           1153 readme.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\underscore
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                amd
+d----          05/03/2026    15:19                cjs
+d----          05/03/2026    15:19                modules
+-a---          11/11/2025    23:58           1139 LICENSE
+-a---          19/02/2026    16:50           4812 package.json
+-a---          11/11/2025    23:58           1846 README.md
+-a---          19/02/2026    16:50          25841 underscore-esm-min.js
+-a---          19/02/2026    16:50          66402 underscore-esm.js
+-a---          19/02/2026    16:50          19668 underscore-min.js
+-a---          19/02/2026    16:50          68204 underscore-node-f.cjs
+-a---          19/02/2026    16:50            382 underscore-node.cjs
+-a---          19/02/2026    16:50          19668 underscore-umd-min.js
+-a---          19/02/2026    16:50          68916 underscore-umd.js
+-a---          19/02/2026    16:50          68916 underscore.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\underscore\amd
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            572 _baseCreate.js
+-a---          11/11/2025    23:58            721 _baseIteratee.js
+-a---          11/11/2025    23:57            442 _cb.js
+-a---          11/11/2025    23:57            246 _chainResult.js
+-a---          11/11/2025    23:58           1426 _collectNonEnumProps.js
+-a---          11/11/2025    23:57            656 _createAssigner.js
+-a---          11/11/2025    23:57            656 _createEscaper.js
+-a---          11/11/2025    23:58           1031 _createIndexFinder.js
+-a---          11/11/2025    23:57            558 _createPredicateIndexFinder.js
+-a---          11/11/2025    23:58           1088 _createReduce.js
+-a---          11/11/2025    23:57            408 _createSizePropertyCheck.js
+-a---          11/11/2025    23:57            329 _deepGet.js
+-a---          11/11/2025    23:57            231 _escapeMap.js
+-a---          11/11/2025    23:58            613 _executeBound.js
+-a---          11/11/2025    23:58           1016 _flatten.js
+-a---          11/11/2025    23:57            214 _getByteLength.js
+-a---          11/11/2025    23:57            198 _getLength.js
+-a---          11/11/2025    23:57            483 _group.js
+-a---          11/11/2025    23:57            237 _has.js
+-a---          11/11/2025    23:57            120 _hasObjectTag.js
+-a---          11/11/2025    23:58            454 _isArrayLike.js
+-a---          11/11/2025    23:57            311 _isBufferLike.js
+-a---          11/11/2025    23:57            225 _keyInObj.js
+-a---          11/11/2025    23:58           1778 _methodFingerprint.js
+-a---          11/11/2025    23:57            886 _optimizeCb.js
+-a---          19/02/2026    16:50           2657 _setup.js
+-a---          11/11/2025    23:57            253 _shallowProperty.js
+-a---          11/11/2025    23:58            884 _stringTagBug.js
+-a---          11/11/2025    23:57            290 _tagTester.js
+-a---          11/11/2025    23:57            406 _toBufferView.js
+-a---          11/11/2025    23:57            261 _toPath.js
+-a---          11/11/2025    23:58            187 _unescapeMap.js
+-a---          11/11/2025    23:57            266 after.js
+-a---          11/11/2025    23:57            423 allKeys.js
+-a---          11/11/2025    23:57            354 before.js
+-a---          11/11/2025    23:58            544 bind.js
+-a---          11/11/2025    23:58            632 bindAll.js
+-a---          11/11/2025    23:57            234 chain.js
+-a---          11/11/2025    23:57            410 chunk.js
+-a---          11/11/2025    23:57            286 clone.js
+-a---          11/11/2025    23:57            179 compact.js
+-a---          11/11/2025    23:57            454 compose.js
+-a---          11/11/2025    23:57            203 constant.js
+-a---          11/11/2025    23:57            407 contains.js
+-a---          11/11/2025    23:58            372 countBy.js
+-a---          11/11/2025    23:57            409 create.js
+-a---          11/11/2025    23:57           1289 debounce.js
+-a---          11/11/2025    23:57            206 defaults.js
+-a---          11/11/2025    23:58            245 defer.js
+-a---          11/11/2025    23:57            340 delay.js
+-a---          11/11/2025    23:58            481 difference.js
+-a---          11/11/2025    23:58            746 each.js
+-a---          11/11/2025    23:57            209 escape.js
+-a---          11/11/2025    23:58            543 every.js
+-a---          11/11/2025    23:57            218 extend.js
+-a---          11/11/2025    23:57            323 extendOwn.js
+-a---          11/11/2025    23:57            375 filter.js
+-a---          11/11/2025    23:57            391 find.js
+-a---          11/11/2025    23:57            229 findIndex.js
+-a---          11/11/2025    23:58            408 findKey.js
+-a---          11/11/2025    23:57            237 findLastIndex.js
+-a---          11/11/2025    23:58            291 findWhere.js
+-a---          11/11/2025    23:57            436 first.js
+-a---          11/11/2025    23:57            310 flatten.js
+-a---          11/11/2025    23:57            308 functions.js
+-a---          11/11/2025    23:58            501 get.js
+-a---          11/11/2025    23:58            361 groupBy.js
+-a---          11/11/2025    23:57            552 has.js
+-a---          11/11/2025    23:57            160 identity.js
+-a---          11/11/2025    23:58            215 index-default.js
+-a---          11/11/2025    23:58           8102 index.js
+-a---          11/11/2025    23:57            290 indexBy.js
+-a---          11/11/2025    23:58            439 indexOf.js
+-a---          11/11/2025    23:57            393 initial.js
+-a---          11/11/2025    23:57            615 intersection.js
+-a---          11/11/2025    23:57            344 invert.js
+-a---          11/11/2025    23:58            852 invoke.js
+-a---          11/11/2025    23:57            454 isArguments.js
+-a---          11/11/2025    23:57            233 isArray.js
+-a---          11/11/2025    23:57            127 isArrayBuffer.js
+-a---          11/11/2025    23:57            227 isBoolean.js
+-a---          11/11/2025    23:58            638 isDataView.js
+-a---          11/11/2025    23:57            106 isDate.js
+-a---          11/11/2025    23:57            159 isElement.js
+-a---          11/11/2025    23:58            626 isEmpty.js
+-a---          11/11/2025    23:58           5661 isEqual.js
+-a---          11/11/2025    23:57            109 isError.js
+-a---          11/11/2025    23:57            241 isFinite.js
+-a---          11/11/2025    23:58            588 isFunction.js
+-a---          11/11/2025    23:58            272 isMap.js
+-a---          11/11/2025    23:57            447 isMatch.js
+-a---          11/11/2025    23:57            195 isNaN.js
+-a---          11/11/2025    23:57            136 isNull.js
+-a---          11/11/2025    23:57            112 isNumber.js
+-a---          11/11/2025    23:58            205 isObject.js
+-a---          11/11/2025    23:57            112 isRegExp.js
+-a---          11/11/2025    23:58            272 isSet.js
+-a---          11/11/2025    23:57            112 isString.js
+-a---          11/11/2025    23:57            112 isSymbol.js
+-a---          11/11/2025    23:58            735 isTypedArray.js
+-a---          11/11/2025    23:57            147 isUndefined.js
+-a---          11/11/2025    23:58            288 isWeakMap.js
+-a---          11/11/2025    23:57            115 isWeakSet.js
+-a---          11/11/2025    23:57            453 iteratee.js
+-a---          11/11/2025    23:57            563 keys.js
+-a---          11/11/2025    23:57            399 last.js
+-a---          11/11/2025    23:58            308 lastIndexOf.js
+-a---          11/11/2025    23:58            573 map.js
+-a---          11/11/2025    23:58            562 mapObject.js
+-a---          11/11/2025    23:57            327 matcher.js
+-a---          11/11/2025    23:58            980 max.js
+-a---          11/11/2025    23:57            459 memoize.js
+-a---          11/11/2025    23:58            976 min.js
+-a---          11/11/2025    23:58            577 mixin.js
+-a---          11/11/2025    23:57            218 negate.js
+-a---          11/11/2025    23:57            132 noop.js
+-a---          11/11/2025    23:57            190 now.js
+-a---          11/11/2025    23:57            581 object.js
+-a---          11/11/2025    23:58            678 omit.js
+-a---          11/11/2025    23:58            248 once.js
+-a---          11/11/2025    23:57            395 pairs.js
+-a---          11/11/2025    23:58           1012 partial.js
+-a---          11/11/2025    23:57            326 partition.js
+-a---          11/11/2025    23:58            853 pick.js
+-a---          19/02/2026    16:50            270 pipe.js
+-a---          11/11/2025    23:58            230 pluck.js
+-a---          11/11/2025    23:57            383 property.js
+-a---          11/11/2025    23:58            286 propertyOf.js
+-a---          11/11/2025    23:57            268 random.js
+-a---          11/11/2025    23:57            638 range.js
+-a---          11/11/2025    23:57            204 reduce.js
+-a---          11/11/2025    23:57            189 reduceRight.js
+-a---          11/11/2025    23:58            264 reject.js
+-a---          11/11/2025    23:57            345 rest.js
+-a---          11/11/2025    23:57           1217 restArguments.js
+-a---          11/11/2025    23:57            786 result.js
+-a---          11/11/2025    23:58            983 sample.js
+-a---          11/11/2025    23:57            157 shuffle.js
+-a---          11/11/2025    23:58            263 size.js
+-a---          11/11/2025    23:58            552 some.js
+-a---          11/11/2025    23:58            709 sortBy.js
+-a---          11/11/2025    23:57            585 sortedIndex.js
+-a---          11/11/2025    23:57            336 tap.js
+-a---          11/11/2025    23:58           3485 template.js
+-a---          11/11/2025    23:57            385 templateSettings.js
+-a---          11/11/2025    23:57           1560 throttle.js
+-a---          11/11/2025    23:57            315 times.js
+-a---          11/11/2025    23:58            656 toArray.js
+-a---          11/11/2025    23:58            304 toPath.js
+-a---          11/11/2025    23:58            980 underscore-array-methods.js
+-a---          11/11/2025    23:57            841 underscore.js
+-a---          11/11/2025    23:57            223 unescape.js
+-a---          11/11/2025    23:58            326 union.js
+-a---          11/11/2025    23:58           1252 uniq.js
+-a---          11/11/2025    23:57            283 uniqueId.js
+-a---          11/11/2025    23:58            464 unzip.js
+-a---          11/11/2025    23:57            329 values.js
+-a---          11/11/2025    23:58            289 where.js
+-a---          11/11/2025    23:57            299 without.js
+-a---          11/11/2025    23:57            326 wrap.js
+-a---          11/11/2025    23:57            227 zip.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\underscore\cjs
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            560 _baseCreate.js
+-a---          11/11/2025    23:58            804 _baseIteratee.js
+-a---          11/11/2025    23:57            463 _cb.js
+-a---          11/11/2025    23:57            237 _chainResult.js
+-a---          11/11/2025    23:58           1393 _collectNonEnumProps.js
+-a---          11/11/2025    23:57            601 _createAssigner.js
+-a---          11/11/2025    23:57            625 _createEscaper.js
+-a---          11/11/2025    23:58           1016 _createIndexFinder.js
+-a---          11/11/2025    23:57            550 _createPredicateIndexFinder.js
+-a---          11/11/2025    23:58           1075 _createReduce.js
+-a---          11/11/2025    23:57            393 _createSizePropertyCheck.js
+-a---          11/11/2025    23:57            292 _deepGet.js
+-a---          11/11/2025    23:57            194 _escapeMap.js
+-a---          11/11/2025    23:58            609 _executeBound.js
+-a---          11/11/2025    23:58           1014 _flatten.js
+-a---          11/11/2025    23:57            212 _getByteLength.js
+-a---          11/11/2025    23:57            196 _getLength.js
+-a---          11/11/2025    23:57            475 _group.js
+-a---          11/11/2025    23:57            228 _has.js
+-a---          11/11/2025    23:57            119 _hasObjectTag.js
+-a---          11/11/2025    23:58            466 _isArrayLike.js
+-a---          11/11/2025    23:57            325 _isBufferLike.js
+-a---          11/11/2025    23:57            196 _keyInObj.js
+-a---          11/11/2025    23:58           1711 _methodFingerprint.js
+-a---          11/11/2025    23:57            825 _optimizeCb.js
+-a---          19/02/2026    16:50           2498 _setup.js
+-a---          11/11/2025    23:57            222 _shallowProperty.js
+-a---          11/11/2025    23:58            820 _stringTagBug.js
+-a---          11/11/2025    23:57            275 _tagTester.js
+-a---          11/11/2025    23:57            387 _toBufferView.js
+-a---          11/11/2025    23:57            252 _toPath.js
+-a---          11/11/2025    23:58            202 _unescapeMap.js
+-a---          11/11/2025    23:57            231 after.js
+-a---          11/11/2025    23:57            438 allKeys.js
+-a---          11/11/2025    23:57            311 before.js
+-a---          11/11/2025    23:58            559 bind.js
+-a---          11/11/2025    23:58            639 bindAll.js
+-a---          11/11/2025    23:57            221 chain.js
+-a---          11/11/2025    23:57            387 chunk.js
+-a---          11/11/2025    23:57            309 clone.js
+-a---          11/11/2025    23:57            170 compact.js
+-a---          11/11/2025    23:57            411 compose.js
+-a---          11/11/2025    23:57            172 constant.js
+-a---          11/11/2025    23:57            428 contains.js
+-a---          11/11/2025    23:58            376 countBy.js
+-a---          11/11/2025    23:57            409 create.js
+-a---          11/11/2025    23:57           1239 debounce.js
+-a---          11/11/2025    23:57            221 defaults.js
+-a---          11/11/2025    23:58            276 defer.js
+-a---          11/11/2025    23:57            325 delay.js
+-a---          11/11/2025    23:58            515 difference.js
+-a---          11/11/2025    23:58            741 each.js
+-a---          11/11/2025    23:57            224 escape.js
+-a---          11/11/2025    23:58            554 every.js
+-a---          11/11/2025    23:57            233 extend.js
+-a---          11/11/2025    23:57            336 extendOwn.js
+-a---          11/11/2025    23:57            373 filter.js
+-a---          11/11/2025    23:57            412 find.js
+-a---          11/11/2025    23:57            227 findIndex.js
+-a---          11/11/2025    23:58            406 findKey.js
+-a---          11/11/2025    23:57            235 findLastIndex.js
+-a---          11/11/2025    23:58            297 findWhere.js
+-a---          11/11/2025    23:57            421 first.js
+-a---          11/11/2025    23:57            299 flatten.js
+-a---          11/11/2025    23:57            291 functions.js
+-a---          11/11/2025    23:58            518 get.js
+-a---          11/11/2025    23:58            367 groupBy.js
+-a---          11/11/2025    23:57            542 has.js
+-a---          11/11/2025    23:57            133 identity.js
+-a---          11/11/2025    23:58            227 index-default.js
+-a---          11/11/2025    23:58           8854 index.js
+-a---          11/11/2025    23:57            279 indexBy.js
+-a---          11/11/2025    23:58            468 indexOf.js
+-a---          11/11/2025    23:57            380 initial.js
+-a---          11/11/2025    23:57            599 intersection.js
+-a---          11/11/2025    23:57            325 invert.js
+-a---          11/11/2025    23:58            875 invoke.js
+-a---          11/11/2025    23:57            448 isArguments.js
+-a---          11/11/2025    23:57            247 isArray.js
+-a---          11/11/2025    23:57            126 isArrayBuffer.js
+-a---          11/11/2025    23:57            218 isBoolean.js
+-a---          11/11/2025    23:58            670 isDataView.js
+-a---          11/11/2025    23:57            105 isDate.js
+-a---          11/11/2025    23:57            132 isElement.js
+-a---          11/11/2025    23:58            669 isEmpty.js
+-a---          11/11/2025    23:58           5575 isEqual.js
+-a---          11/11/2025    23:57            108 isError.js
+-a---          11/11/2025    23:57            249 isFinite.js
+-a---          11/11/2025    23:58            584 isFunction.js
+-a---          11/11/2025    23:58            305 isMap.js
+-a---          11/11/2025    23:57            424 isMatch.js
+-a---          11/11/2025    23:57            203 isNaN.js
+-a---          11/11/2025    23:57            109 isNull.js
+-a---          11/11/2025    23:57            111 isNumber.js
+-a---          11/11/2025    23:58            176 isObject.js
+-a---          11/11/2025    23:57            111 isRegExp.js
+-a---          11/11/2025    23:58            305 isSet.js
+-a---          11/11/2025    23:57            111 isString.js
+-a---          11/11/2025    23:57            111 isSymbol.js
+-a---          11/11/2025    23:58            767 isTypedArray.js
+-a---          11/11/2025    23:57            120 isUndefined.js
+-a---          11/11/2025    23:58            321 isWeakMap.js
+-a---          11/11/2025    23:57            114 isWeakSet.js
+-a---          11/11/2025    23:57            455 iteratee.js
+-a---          11/11/2025    23:57            591 keys.js
+-a---          11/11/2025    23:57            384 last.js
+-a---          11/11/2025    23:58            322 lastIndexOf.js
+-a---          11/11/2025    23:58            582 map.js
+-a---          11/11/2025    23:58            552 mapObject.js
+-a---          11/11/2025    23:57            327 matcher.js
+-a---          11/11/2025    23:58            982 max.js
+-a---          11/11/2025    23:57            436 memoize.js
+-a---          11/11/2025    23:58            978 min.js
+-a---          11/11/2025    23:58            620 mixin.js
+-a---          11/11/2025    23:57            187 negate.js
+-a---          11/11/2025    23:57            112 noop.js
+-a---          11/11/2025    23:57            163 now.js
+-a---          11/11/2025    23:57            552 object.js
+-a---          11/11/2025    23:58            751 omit.js
+-a---          11/11/2025    23:58            262 once.js
+-a---          11/11/2025    23:57            372 pairs.js
+-a---          11/11/2025    23:58           1009 partial.js
+-a---          11/11/2025    23:57            315 partition.js
+-a---          11/11/2025    23:58            899 pick.js
+-a---          19/02/2026    16:50            274 pipe.js
+-a---          11/11/2025    23:58            238 pluck.js
+-a---          11/11/2025    23:57            383 property.js
+-a---          11/11/2025    23:58            288 propertyOf.js
+-a---          11/11/2025    23:57            233 random.js
+-a---          11/11/2025    23:57            583 range.js
+-a---          11/11/2025    23:57            201 reduce.js
+-a---          11/11/2025    23:57            187 reduceRight.js
+-a---          11/11/2025    23:58            289 reject.js
+-a---          11/11/2025    23:57            332 rest.js
+-a---          11/11/2025    23:57           1144 restArguments.js
+-a---          11/11/2025    23:57            764 result.js
+-a---          11/11/2025    23:58           1008 sample.js
+-a---          11/11/2025    23:57            148 shuffle.js
+-a---          11/11/2025    23:58            269 size.js
+-a---          11/11/2025    23:58            563 some.js
+-a---          11/11/2025    23:58            702 sortBy.js
+-a---          11/11/2025    23:57            577 sortedIndex.js
+-a---          11/11/2025    23:57            303 tap.js
+-a---          11/11/2025    23:58           3331 template.js
+-a---          11/11/2025    23:57            370 templateSettings.js
+-a---          11/11/2025    23:57           1477 throttle.js
+-a---          11/11/2025    23:57            300 times.js
+-a---          11/11/2025    23:58            733 toArray.js
+-a---          11/11/2025    23:58            308 toPath.js
+-a---          11/11/2025    23:58            984 underscore-array-methods.js
+-a---          11/11/2025    23:57            802 underscore.js
+-a---          11/11/2025    23:57            238 unescape.js
+-a---          11/11/2025    23:58            349 union.js
+-a---          11/11/2025    23:58           1240 uniq.js
+-a---          11/11/2025    23:57            250 uniqueId.js
+-a---          11/11/2025    23:58            477 unzip.js
+-a---          11/11/2025    23:57            308 values.js
+-a---          11/11/2025    23:58            295 where.js
+-a---          11/11/2025    23:57            307 without.js
+-a---          11/11/2025    23:57            313 wrap.js
+-a---          11/11/2025    23:57            241 zip.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\underscore\modules
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            535 _baseCreate.js
+-a---          11/11/2025    23:57            764 _baseIteratee.js
+-a---          11/11/2025    23:57            418 _cb.js
+-a---          11/11/2025    23:57            200 _chainResult.js
+-a---          11/11/2025    23:58           1363 _collectNonEnumProps.js
+-a---          11/11/2025    23:57            582 _createAssigner.js
+-a---          11/11/2025    23:57            604 _createEscaper.js
+-a---          11/11/2025    23:57            977 _createIndexFinder.js
+-a---          11/11/2025    23:57            509 _createPredicateIndexFinder.js
+-a---          11/11/2025    23:57           1045 _createReduce.js
+-a---          11/11/2025    23:57            368 _createSizePropertyCheck.js
+-a---          11/11/2025    23:57            280 _deepGet.js
+-a---          11/11/2025    23:57            164 _escapeMap.js
+-a---          11/11/2025    23:57            584 _executeBound.js
+-a---          19/02/2026    16:50           1028 _flatten.js
+-a---          11/11/2025    23:57            169 _getByteLength.js
+-a---          11/11/2025    23:57            161 _getLength.js
+-a---          11/11/2025    23:57            457 _group.js
+-a---          11/11/2025    23:57            222 _has.js
+-a---          11/11/2025    23:57             78 _hasObjectTag.js
+-a---          11/11/2025    23:57            422 _isArrayLike.js
+-a---          11/11/2025    23:57            279 _isBufferLike.js
+-a---          11/11/2025    23:57            183 _keyInObj.js
+-a---          11/11/2025    23:57           1498 _methodFingerprint.js
+-a---          11/11/2025    23:57            810 _optimizeCb.js
+-a---          19/02/2026    16:50           1828 _setup.js
+-a---          11/11/2025    23:57            202 _shallowProperty.js
+-a---          11/11/2025    23:58            694 _stringTagBug.js
+-a---          11/11/2025    23:57            257 _tagTester.js
+-a---          11/11/2025    23:57            365 _toBufferView.js
+-a---          11/11/2025    23:57            218 _toPath.js
+-a---          11/11/2025    23:57            160 _unescapeMap.js
+-a---          11/11/2025    23:58            346 .eslintrc
+-a---          11/11/2025    23:57            221 after.js
+-a---          11/11/2025    23:57            416 allKeys.js
+-a---          11/11/2025    23:57            300 before.js
+-a---          11/11/2025    23:57            528 bind.js
+-a---          11/11/2025    23:57            602 bindAll.js
+-a---          11/11/2025    23:57            190 chain.js
+-a---          11/11/2025    23:57            370 chunk.js
+-a---          11/11/2025    23:57            290 clone.js
+-a---          11/11/2025    23:57            155 compact.js
+-a---          11/11/2025    23:57            399 compose.js
+-a---          11/11/2025    23:57            159 constant.js
+-a---          11/11/2025    23:57            404 contains.js
+-a---          11/11/2025    23:57            340 countBy.js
+-a---          11/11/2025    23:57            390 create.js
+-a---          11/11/2025    23:57           1220 debounce.js
+-a---          11/11/2025    23:57            185 defaults.js
+-a---          11/11/2025    23:57            227 defer.js
+-a---          11/11/2025    23:57            300 delay.js
+-a---          11/11/2025    23:57            469 difference.js
+-a---          11/11/2025    23:57            719 each.js
+-a---          11/11/2025    23:57            188 escape.js
+-a---          11/11/2025    23:57            531 every.js
+-a---          11/11/2025    23:57            201 extend.js
+-a---          11/11/2025    23:57            298 extendOwn.js
+-a---          11/11/2025    23:57            354 filter.js
+-a---          11/11/2025    23:57            392 find.js
+-a---          11/11/2025    23:57            192 findIndex.js
+-a---          11/11/2025    23:57            386 findKey.js
+-a---          11/11/2025    23:57            192 findLastIndex.js
+-a---          11/11/2025    23:57            277 findWhere.js
+-a---          11/11/2025    23:57            408 first.js
+-a---          11/11/2025    23:57            284 flatten.js
+-a---          11/11/2025    23:57            274 functions.js
+-a---          11/11/2025    23:57            497 get.js
+-a---          11/11/2025    23:57            331 groupBy.js
+-a---          11/11/2025    23:57            526 has.js
+-a---          11/11/2025    23:57            120 identity.js
+-a---          11/11/2025    23:57            809 index-all.js
+-a---          11/11/2025    23:57            872 index-default.js
+-a---          19/02/2026    16:50           8905 index.js
+-a---          11/11/2025    23:57            248 indexBy.js
+-a---          11/11/2025    23:57            431 indexOf.js
+-a---          11/11/2025    23:57            361 initial.js
+-a---          11/11/2025    23:57            574 intersection.js
+-a---          11/11/2025    23:57            311 invert.js
+-a---          11/11/2025    23:57            832 invoke.js
+-a---          11/11/2025    23:57            400 isArguments.js
+-a---          11/11/2025    23:57            217 isArray.js
+-a---          11/11/2025    23:57             83 isArrayBuffer.js
+-a---          11/11/2025    23:57            200 isBoolean.js
+-a---          11/11/2025    23:58            611 isDataView.js
+-a---          11/11/2025    23:57             76 isDate.js
+-a---          11/11/2025    23:57            118 isElement.js
+-a---          11/11/2025    23:57            639 isEmpty.js
+-a---          19/02/2026    16:50           5549 isEqual.js
+-a---          11/11/2025    23:57             77 isError.js
+-a---          11/11/2025    23:57            230 isFinite.js
+-a---          11/11/2025    23:57            528 isFunction.js
+-a---          11/11/2025    23:57            231 isMap.js
+-a---          11/11/2025    23:57            409 isMatch.js
+-a---          11/11/2025    23:57            184 isNaN.js
+-a---          11/11/2025    23:57             98 isNull.js
+-a---          11/11/2025    23:57             78 isNumber.js
+-a---          11/11/2025    23:58            163 isObject.js
+-a---          11/11/2025    23:57             78 isRegExp.js
+-a---          11/11/2025    23:57            231 isSet.js
+-a---          11/11/2025    23:57             78 isString.js
+-a---          11/11/2025    23:57             78 isSymbol.js
+-a---          11/11/2025    23:57            726 isTypedArray.js
+-a---          11/11/2025    23:57            104 isUndefined.js
+-a---          11/11/2025    23:57            243 isWeakMap.js
+-a---          11/11/2025    23:57             79 isWeakSet.js
+-a---          11/11/2025    23:57            416 iteratee.js
+-a---          11/11/2025    23:57            565 keys.js
+-a---          11/11/2025    23:57            372 last.js
+-a---          11/11/2025    23:57            280 lastIndexOf.js
+-a---          11/11/2025    23:57            561 map.js
+-a---          11/11/2025    23:57            530 mapObject.js
+-a---          11/11/2025    23:57            309 matcher.js
+-a---          11/11/2025    23:58            958 max.js
+-a---          11/11/2025    23:57            419 memoize.js
+-a---          11/11/2025    23:58            954 min.js
+-a---          11/11/2025    23:57            543 mixin.js
+-a---          11/11/2025    23:57            176 negate.js
+-a---          11/11/2025    23:57            103 noop.js
+-a---          11/11/2025    23:57            145 now.js
+-a---          11/11/2025    23:57            537 object.js
+-a---          11/11/2025    23:57            708 omit.js
+-a---          11/11/2025    23:57            236 once.js
+-a---          19/02/2026    16:50             37 package.json
+-a---          11/11/2025    23:57            359 pairs.js
+-a---          11/11/2025    23:57            977 partial.js
+-a---          11/11/2025    23:57            280 partition.js
+-a---          11/11/2025    23:57            855 pick.js
+-a---          11/11/2025    23:57            222 pluck.js
+-a---          11/11/2025    23:57            360 property.js
+-a---          11/11/2025    23:57            267 propertyOf.js
+-a---          11/11/2025    23:57            222 random.js
+-a---          11/11/2025    23:57            573 range.js
+-a---          11/11/2025    23:57            172 reduce.js
+-a---          11/11/2025    23:57            148 reduceRight.js
+-a---          11/11/2025    23:57            267 reject.js
+-a---          11/11/2025    23:57            316 rest.js
+-a---          11/11/2025    23:57           1126 restArguments.js
+-a---          11/11/2025    23:57            745 result.js
+-a---          11/11/2025    23:58            978 sample.js
+-a---          11/11/2025    23:57            133 shuffle.js
+-a---          11/11/2025    23:57            252 size.js
+-a---          11/11/2025    23:57            541 some.js
+-a---          11/11/2025    23:57            680 sortBy.js
+-a---          11/11/2025    23:57            551 sortedIndex.js
+-a---          11/11/2025    23:57            295 tap.js
+-a---          11/11/2025    23:58           3283 template.js
+-a---          11/11/2025    23:57            305 templateSettings.js
+-a---          11/11/2025    23:57           1461 throttle.js
+-a---          11/11/2025    23:57            285 times.js
+-a---          11/11/2025    23:57            694 toArray.js
+-a---          11/11/2025    23:57            273 toPath.js
+-a---          11/11/2025    23:57            925 underscore-array-methods.js
+-a---          11/11/2025    23:57            791 underscore.js
+-a---          11/11/2025    23:57            198 unescape.js
+-a---          11/11/2025    23:57            316 union.js
+-a---          11/11/2025    23:57           1215 uniq.js
+-a---          11/11/2025    23:57            237 uniqueId.js
+-a---          11/11/2025    23:58            456 unzip.js
+-a---          11/11/2025    23:57            294 values.js
+-a---          11/11/2025    23:57            279 where.js
+-a---          11/11/2025    23:57            275 without.js
+-a---          11/11/2025    23:57            301 wrap.js
+-a---          11/11/2025    23:57            217 zip.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_spellcheck-1\discord_spellcheck\node_modules\wrappy
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57            765 LICENSE
+-a---          11/11/2025    23:57            606 package.json
+-a---          11/11/2025    23:57            685 README.md
+-a---          11/11/2025    23:57            905 wrappy.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                discord_utils
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                node_modules
+-a---          06/03/2026    01:31        2100664 discord_utils.node
+-a---          06/03/2026    01:31        2131840 DiscordSystemHelper.exe
+-a---          17/02/2026    19:02           8619 index.js
+-a---          15/12/2025    18:59           8407 input_capture.js
+-a---          15/12/2025    18:59           3504 input_event.js
+-a---          15/12/2025    19:01           1549 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                bindings
+d----          06/03/2026    01:31                file-uri-to-path
+d----          06/03/2026    01:31                node-addon-api
+d----          06/03/2026    01:31                windows-notification-state
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\bindings
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57           5986 bindings.js
+-a---          11/11/2025    23:57           1108 LICENSE.md
+-a---          11/11/2025    23:57            660 package.json
+-a---          11/11/2025    23:57           3476 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\file-uri-to-path
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57             14 .npmignore
+-a---          11/11/2025    23:57            433 History.md
+-a---          11/11/2025    23:57           1723 index.js
+-a---          11/11/2025    23:57           1083 LICENSE
+-a---          11/11/2025    23:57            717 package.json
+-a---          11/11/2025    23:57           2073 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\node-addon-api
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                tools
+-a---          12/11/2025    18:18            306 index.js
+-a---          12/11/2025    18:17           1245 LICENSE.md
+-a---          11/11/2025    23:57            467 package-support.json
+-a---          12/11/2025    18:18          10279 package.json
+-a---          12/11/2025    18:18          13732 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\node-addon-api\tools
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          11/11/2025    23:57           3176 check-napi.js
+-a---          11/11/2025    23:57           2002 clang-format.js
+-a---          11/11/2025    23:57          15013 conversion.js
+-a---          12/11/2025    18:18           2033 eslint-format.js
+-a---          11/11/2025    23:57           3217 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\windows-notification-state
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                build
+d----          06/03/2026    01:31                lib
+-a---          12/11/2025    18:18           1081 LICENSE
+-a---          12/11/2025    18:18            863 package.json
+-a---          12/11/2025    18:18            876 README.md
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\windows-notification-state\build
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          06/03/2026    01:31                Release
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\windows-notification-state\build\Release
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          06/03/2026    01:31         141240 notificationstate.node
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_utils-2\discord_utils\node_modules\windows-notification-state\lib
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          12/11/2025    18:18           1270 index.js
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_voice-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_voice
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_voice-1\discord_voice
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19       14371256 discord_voice.node
+-a---          05/03/2026    15:19         895416 gpu_encoder_helper.exe
+-a---          20/02/2026    17:13          21766 index.js
+-a---          18/12/2025    22:27            242 manifest.json
+-a---          05/03/2026    15:19        8667576 mediapipe.dll
+-a---          18/12/2025    22:24             25 package.json
+-a---          18/12/2025    20:55         250145 selfie_segmentation_landscape.tflite
+-a---          18/12/2025    20:55         249505 selfie_segmentation.tflite
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_zstd-1
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                discord_zstd
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\modules\discord_zstd-1\discord_zstd
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          05/03/2026    15:19         746936 discord_zstd.node
+-a---          10/12/2025    20:22           1386 index.js
+-a---          15/12/2025    19:01            108 manifest.json
+-a---          15/12/2025    19:01             25 package.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\resources
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          05/03/2026    15:19                bootstrap
+-a---          05/03/2026    15:19        7911006 app.asar
+-a---          02/03/2026    18:40             83 build_info.json
+
+    Directory: C:\Users\Localuser\AppData\Local\Discord\app-1.0.9227\resources\bootstrap
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          15/12/2025    18:18            185 manifest.json
+
