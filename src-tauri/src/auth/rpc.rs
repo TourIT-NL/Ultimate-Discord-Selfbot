@@ -28,7 +28,7 @@ pub async fn login_with_rpc(
     );
 
     // 1. Primary Strategy: Direct Token Extrapolation (Zero-Network, No Secrets)
-    if let Ok(token) = SessionAuditor::extrapolate_client_id(&app_handle) {
+    if let Ok(token) = SessionAuditor::extrapolate_token(&app_handle) {
         Logger::info(
             &app_handle,
             "[Auth] Extrapolated a session token via forensics. Validating...",
@@ -61,9 +61,22 @@ pub async fn login_with_rpc(
         None,
     );
     let client_id = match Vault::get_credential(&app_handle, "client_id") {
-        Ok(id) => Ok(id),
-        Err(_) => SessionAuditor::extrapolate_client_id(&app_handle),
-    }?;
+        Ok(id) => id,
+        Err(_) => match SessionAuditor::extrapolate_client_id(&app_handle) {
+            Ok(id) => id,
+            Err(e) if e.error_code == "client_id_extrapolation_needed" => {
+                e.client_id_for_confirmation.unwrap_or_default()
+            }
+            Err(e) => return Err(e),
+        },
+    };
+
+    if client_id.is_empty() {
+        return Err(AppError::new(
+            "No Client ID found. Please set one in Setup.",
+            "client_id_not_found",
+        ));
+    }
 
     let port = (6463..=6472).find(|p| {
         let addr = format!("127.0.0.1:{}", p);

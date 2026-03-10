@@ -67,13 +67,6 @@ pub async fn check_discord_status(app_handle: tauri::AppHandle) -> Result<Discor
             .any(|b| n.contains(b))
     });
 
-    // Only extrapolate if we don't have it in vault
-    if crate::core::vault::Vault::get_credential(&app_handle, "client_id").is_err() {
-        // This is safe to run as it will only return early if it finds one.
-        // But let's avoid it if we already have it.
-        let _ = SessionAuditor::extrapolate_client_id(&app_handle);
-    }
-
     Ok(DiscordStatus {
         is_running,
         rpc_available,

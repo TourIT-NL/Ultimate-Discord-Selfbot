@@ -36,8 +36,15 @@ export const useAuthMethods = (
     try {
       await invoke("start_qr_login_flow");
     } catch (err: any) {
-      handleApiError(err, "QR Gateway failed.");
-      setView("auth");
+      if (err?.error_code === "client_id_not_found") {
+        setError(
+          "Automatic configuration failed. A Client ID is required for QR login. Please enter one below.",
+        );
+        setView("setup");
+      } else {
+        handleApiError(err, "QR Gateway failed.");
+        setView("auth");
+      }
     }
   };
 
@@ -57,12 +64,19 @@ export const useAuthMethods = (
     try {
       await invoke("login_with_rpc");
     } catch (err: any) {
-      if (err.error_code === "credentials_missing") {
+      if (err?.error_code === "client_id_not_found") {
+        setError(
+          "Automatic configuration failed. A Client ID is required for RPC login. Please enter one below.",
+        );
+        setView("setup");
+      } else if (err.error_code === "credentials_missing") {
         setView("setup");
         setError(err.user_message);
       } else {
         handleApiError(err, "RPC handshake failed.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
