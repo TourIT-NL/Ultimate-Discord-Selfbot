@@ -177,7 +177,7 @@ impl SessionAuditor {
                                 let package_json = core_module_path.join("package.json");
 
                                 let critical_core_module_files =
-                                    vec![index_js, core_asar, package_json];
+                                    vec![index_js.clone(), core_asar, package_json];
 
                                 let mut all_files_in_core_found = true;
                                 for file_path in critical_core_module_files {
