@@ -7,6 +7,7 @@ use regex::Regex;
 use sha2::{Digest, Sha256};
 use std::fs;
 use std::io::copy;
+use std::net::ToSocketAddrs;
 use walkdir::WalkDir;
 
 pub struct SessionAuditor;
@@ -33,21 +34,79 @@ impl SessionAuditor {
             );
         }
 
-        Logger::debug(
-            app,
-            "[Forensics] Performing DNS resolution check (placeholder).",
-            None,
+        // 1. DNS Resolution Check
+        let domains = [
+            "discord.com",
+            "gateway.discord.gg",
+            "remote-auth-gateway.discord.gg",
+        ];
+        for domain in &domains {
+            match (domain.to_string(), 443).to_socket_addrs() {
+                Ok(_) => Logger::debug(
+                    app,
+                    &format!("[Forensics] DNS resolution successful for {}", domain),
+                    None,
+                ),
+                Err(e) => Logger::warn(
+                    app,
+                    &format!("[Forensics] DNS resolution failed for {}: {}", domain, e),
+                    None,
+                ),
+            }
+        }
+
+        // 2. Process Scan for monitoring/malicious tools
+        let mut s = sysinfo::System::new();
+        s.refresh_processes_specifics(
+            sysinfo::ProcessesToUpdate::All,
+            true,
+            sysinfo::ProcessRefreshKind::default(),
         );
-        Logger::debug(
-            app,
-            "[Forensics] Performing basic process scan (placeholder).",
-            None,
-        );
-        Logger::debug(
-            app,
-            "[Forensics] Performing anti-debugging check (placeholder).",
-            None,
-        );
+
+        let suspicious_processes = [
+            "wireshark",
+            "fiddler",
+            "charles",
+            "http-toolkit",
+            "proxyman",
+            "cheatengine",
+            "processhacker",
+            "x64dbg",
+            "ollydbg",
+            "ida64",
+            "ghidra",
+        ];
+
+        for process in s.processes().values() {
+            let name = process.name().to_string_lossy().to_lowercase();
+            for suspicious in &suspicious_processes {
+                if name.contains(suspicious) {
+                    Logger::warn(
+                        app,
+                        &format!(
+                            "[Forensics] Detected potentially intrusive process: {} (PID: {})",
+                            name,
+                            process.pid()
+                        ),
+                        Some(serde_json::json!({"pid": process.pid().as_u32(), "name": name})),
+                    );
+                }
+            }
+        }
+
+        // 3. Anti-Debugging Check
+        #[cfg(target_os = "windows")]
+        {
+            unsafe {
+                if windows_sys::Win32::System::Diagnostics::Debug::IsDebuggerPresent() != 0 {
+                    Logger::warn(
+                        app,
+                        "[Forensics] Anti-Debugging: Process is being debugged!",
+                        None,
+                    );
+                }
+            }
+        }
 
         Logger::info(app, "[Forensics] System environment audit completed.", None);
         Ok(())
@@ -381,7 +440,21 @@ impl SessionAuditor {
                             return Err(AppError::client_id_extrapolation_needed(id));
                         }
 
-                        // Fallback: Check in app.asar if possible (placeholder for future implementation)
+                        // Fallback: Check in app.asar
+                        let app_asar_path = entry_path.join("resources").join("app.asar");
+                        if app_asar_path.exists() {
+                            if let Some(id) = Self::scrape_asar_file(app, &app_asar_path, &re) {
+                                Logger::info(
+                                    app,
+                                    &format!(
+                                        "[Forensics] Successfully extrapolated client_id from ASAR: {}",
+                                        id
+                                    ),
+                                    None,
+                                );
+                                return Err(AppError::client_id_extrapolation_needed(id));
+                            }
+                        }
                     }
                 }
             }
@@ -391,6 +464,13 @@ impl SessionAuditor {
                 let alt_path = base_path.join("resources").join("app");
                 if let Some(id) = Self::scrape_js_files(app, &alt_path, &re) {
                     return Err(AppError::client_id_extrapolation_needed(id));
+                }
+
+                let alt_asar = base_path.join("resources").join("app.asar");
+                if alt_asar.exists() {
+                    if let Some(id) = Self::scrape_asar_file(app, &alt_asar, &re) {
+                        return Err(AppError::client_id_extrapolation_needed(id));
+                    }
                 }
             }
 
@@ -409,8 +489,55 @@ impl SessionAuditor {
         ))
     }
 
+    fn scrape_asar_file(
+        _app: &tauri::AppHandle,
+        path: &std::path::Path,
+        re: &Regex,
+    ) -> Option<String> {
+        use std::io::{BufReader, Read};
+
+        let file = match fs::File::open(path) {
+            Ok(f) => f,
+            Err(_) => return None,
+        };
+
+        let mut reader = BufReader::new(file);
+        let mut buffer = vec![0; 65536]; // 64KB chunks
+        let mut overlap = String::new();
+
+        while let Ok(bytes_read) = reader.read(&mut buffer) {
+            if bytes_read == 0 {
+                break;
+            }
+
+            // Convert current chunk to lossy UTF-8
+            let current_chunk = String::from_utf8_lossy(&buffer[..bytes_read]);
+
+            // Prepend overlap from previous chunk to handle regex spanning across chunks
+            let search_text = format!("{}{}", overlap, current_chunk);
+
+            if let Some(cap) = re.captures(&search_text) {
+                if let Some(id) = cap.get(1) {
+                    return Some(id.as_str().to_string());
+                }
+            }
+
+            // Keep the last 50 characters for overlap in the next iteration
+            overlap = search_text
+                .chars()
+                .rev()
+                .take(50)
+                .collect::<String>()
+                .chars()
+                .rev()
+                .collect();
+        }
+
+        None
+    }
+
     fn scrape_js_files(
-        app: &tauri::AppHandle,
+        _app: &tauri::AppHandle,
         path: &std::path::Path,
         re: &Regex,
     ) -> Option<String> {

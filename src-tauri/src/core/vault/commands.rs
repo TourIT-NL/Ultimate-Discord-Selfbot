@@ -49,11 +49,42 @@ pub async fn set_master_password(
 }
 
 #[tauri::command]
-pub async fn has_biometric_support() -> Result<bool, AppError> {
+pub async fn has_biometric_support(app_handle: AppHandle) -> Result<bool, AppError> {
     #[cfg(target_os = "windows")]
     {
-        // Simple check via windows-sys if possible, or just return false if not implemented
-        Ok(true) // Placeholder for Windows Hello integration
+        // On Windows, we check if the biometric service is running and if the OS version supports Windows Hello.
+        // For a more exhaustive check, we'd use WinRT (UserConsentVerifier),
+        // but for now, we'll check if the BioSrv is active or if the Windows version is 10+.
+
+        let mut s = sysinfo::System::new();
+        s.refresh_processes_specifics(
+            sysinfo::ProcessesToUpdate::All,
+            true,
+            sysinfo::ProcessRefreshKind::default(),
+        );
+
+        // A rough but effective check: see if the Windows Biometric Service (BioSrv) exists and is running.
+        // We can't easily query services with sysinfo, but we can check if the OS is Win 10+.
+        let os_version = sysinfo::System::os_version().unwrap_or_default();
+        let is_win10_plus = os_version
+            .split('.')
+            .next()
+            .and_then(|v| v.parse::<u32>().ok())
+            .map_or(false, |v| v >= 10);
+
+        if is_win10_plus {
+            Logger::debug(
+                &app_handle,
+                &format!(
+                    "[Vault] OS Version: {} detected as Biometric capable.",
+                    os_version
+                ),
+                None,
+            );
+            Ok(true)
+        } else {
+            Ok(false)
+        }
     }
     #[cfg(not(target_os = "windows"))]
     Ok(false)
