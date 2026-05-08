@@ -13,7 +13,7 @@ rand_core = { version = "0.6.4", features = ["getrandom"] }
 reqwest = { version = "0.13.2", default-features = false, features = ["json", "rustls", "form"] }
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
-tauri = { version = "2.10.2", features = [] }
+tauri = { version = "2.11.1", features = [] }
 tauri-plugin-shell = "2.3.5"
 tauri-plugin-opener = "2.5.3"
 tokio = { version = "1.49.0", features = ["full"] }
